@@ -17,5 +17,5 @@ public interface BorrowManager {
 
     SortedSet<Borrow> getAllBorrows();
 
-    Borrow getBorrowByID(int id);
+    Borrow getBorrowById(int id);
 }

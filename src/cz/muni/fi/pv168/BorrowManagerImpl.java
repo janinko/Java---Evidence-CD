@@ -24,7 +24,7 @@ public class BorrowManagerImpl implements BorrowManager {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public Borrow getBorrowByID(int id) {
+    public Borrow getBorrowById(int id) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

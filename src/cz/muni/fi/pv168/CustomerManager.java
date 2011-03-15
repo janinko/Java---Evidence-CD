@@ -17,5 +17,5 @@ public interface CustomerManager {
 
     SortedSet<Customer> getAllCustomers();
 
-    Customer getCustomerByID(int id);
+    Customer getCustomerById(int id);
 }
