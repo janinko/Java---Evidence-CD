@@ -115,9 +115,4 @@ public class CDManagerImplTest {
         // tests if the ids differ
         assertEquals(count, ids.size());
     }
-
-    @Test
-    public void testGetCDById() {
-
-    }
 }
