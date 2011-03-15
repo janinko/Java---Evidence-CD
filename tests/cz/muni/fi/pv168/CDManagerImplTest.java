@@ -4,6 +4,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.Assert.*;
 
 
@@ -85,9 +88,32 @@ public class CDManagerImplTest {
         assertEquals(1234,result.getTitle());
     }
 
-    @Testr
+    @Test
     public void testGetAllCD() {
+        int count = 15;
 
+        // creates bunch of CDs
+        for(int i=0; i < count; i++){
+            manager.createCD(new CD(0, "CD cislo: " + i, 2000 + i));
+        }
+
+        // tests if the returned collection size match the desired count
+        assertEquals(count, manager.getAllCD().size());
+
+
+        int actcount = 0;
+        Set<Integer> ids = new HashSet<Integer>;
+        // tests if the returned CDs match the created
+        for(CD cd : manager.getAllCD()){
+            assertEquals("CD cislo: " + actcount, cd.getTitle());
+            assertEquals(2000 + actcount, cd.getYear());
+            actcount++;
+
+            ids.add(new Integer(cd.getId()));
+        }
+
+        // tests if the ids differ
+        assertEquals(count, ids.size());
     }
 
     @Test
