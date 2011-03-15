@@ -50,7 +50,7 @@ public class CDManagerImplTest {
         assertEquals(cd.getId(), result.getYear());
 
         try{
-            manager.createCD(new CD(cdId, "Dupplicate id", 34404))
+            manager.createCD(new CD(cdId, "Dupplicate id", 34404));
             fail();
         }catch(InvalidArgumentException ex){
             // OK
