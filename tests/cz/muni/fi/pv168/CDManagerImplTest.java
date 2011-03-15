@@ -66,10 +66,26 @@ public class CDManagerImplTest {
 
     @Test
     public void testUpdateCD() {
+        CD cd = new CD();
+        cd.setTitle("U can mode me!");
+        cd.setYear(987);
 
+        manager.createCD(cd);
+
+        int cdId = cd.getId();
+        assertNotNull(cdId);
+
+        cd.setTitle("I'm modded!");
+        cd.setYear(1234);
+
+        CD result = manager.updateCD(cd);
+        assertNotNull(result);
+
+        assertEquals("I'm modded!",result.getTitle());
+        assertEquals(1234,result.getTitle());
     }
 
-    @Test
+    @Testr
     public void testGetAllCD() {
 
     }
