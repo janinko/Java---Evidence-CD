@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168;
 
-import org.junit.After
-        ;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
