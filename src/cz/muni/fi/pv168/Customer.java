@@ -15,6 +15,16 @@ public class Customer {
         this.name = name;
     }
 
+    public Customer() {
+        this.id = 0;
+        this.name = "";
+    }
+
+    public Customer(int id) {
+        this.id = id;
+        this.name = "";
+    }
+
 
     public int getId() {
         return id;

@@ -13,6 +13,17 @@ public class Borrow {
     private boolean active;
 
     public Borrow() {
+        this.id = 0;
+        this.cd = null;
+        this.customer = null;
+        this.active = false;
+    }
+
+    public Borrow(int id) {
+        this.id = id;
+        this.cd = null;
+        this.customer = null;
+        this.active = false;
     }
 
     public Borrow(int id, CD cd, Customer customer, boolean active) {

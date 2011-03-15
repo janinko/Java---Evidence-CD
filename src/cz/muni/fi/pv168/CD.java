@@ -17,6 +17,17 @@ public class CD {
         this.year = year;
     }
 
+    public CD() {
+        this.id = 0;
+        this.title = "";
+        this.year = 0;
+    }
+
+    public CD(int id) {
+        this.id = id;
+        this.title = "";
+        this.year = 0;
+    }
 
     public int getId() {
         return id;
