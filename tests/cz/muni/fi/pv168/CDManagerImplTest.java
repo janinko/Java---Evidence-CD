@@ -37,7 +37,7 @@ public class CDManagerImplTest {
         int cdId = cd.getId();
         assertNotNull(cdId);
 
-        CD result = manager.getCDByID(cdId);
+        CD result = manager.getCDById(cdId);
         assertNotNull(result);
 
         assertEquals(cd, result);
@@ -60,7 +60,7 @@ public class CDManagerImplTest {
         CD result = manager.deleteCD(new CD(cdId));
         assertNotNull(result);
 
-        CD finded = manager.getCDByID(cdId);
+        CD finded = manager.getCDById(cdId);
         assertNull(finded);
     }
 
