@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +48,24 @@ public class CDManagerImplTest {
         assertEquals(cd.getTitle(), result.getTitle());
         assertEquals(cd.getYear(), result.getYear());
         assertEquals(cd.getId(), result.getYear());
+
+        try{
+            manager.createCD(new CD(cdId, "Dupplicate id", 34404))
+            fail();
+        }catch(InvalidArgumentException ex){
+            // OK
+        }catch(Exception ex){
+            fail();
+        }
+
+        try{
+            manager.createCD(null);
+            fail();
+        }catch (NullPointerException ex){
+            // OK
+        }catch (Exception ex){
+            fail();
+        }
     }
 
     @Test
