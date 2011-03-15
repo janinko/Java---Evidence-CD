@@ -5,7 +5,7 @@ import org.junit.Test;
 
 /**
  * Created by IntelliJ IDEA.
- * User: fivekeyem
+ * User: fivekeyem, janinko
  * Date: 3/14/11
  */
 public class BorrowManagerImplTest {

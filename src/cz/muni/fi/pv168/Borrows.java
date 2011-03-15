@@ -4,7 +4,7 @@ import java.util.SortedSet;
 
 /**
  * Created by IntelliJ IDEA.
- * User: fivekeyem
+ * User: fivekeyem, janinko
  * Date: 3/14/11
  */
 public interface Borrows {

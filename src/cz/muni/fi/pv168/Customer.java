@@ -2,7 +2,7 @@ package cz.muni.fi.pv168;
 
 /**
  * Created by IntelliJ IDEA.
- * User: fivekeyem
+ * User: fivekeyem, janinko
  * Date: 3/6/11
  */
 public class Customer {
