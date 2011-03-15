@@ -24,7 +24,7 @@ public class CDManagerImpl implements CDManager {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public CD getCDByID(int id) {
+    public CD getCDById(int id) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

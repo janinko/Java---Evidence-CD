@@ -12,6 +12,9 @@ public class Borrow {
     private Customer customer;
     private boolean active;
 
+    public Borrow() {
+    }
+
     public Borrow(int id, CD cd, Customer customer, boolean active) {
         this.id = id;
         this.cd = cd;

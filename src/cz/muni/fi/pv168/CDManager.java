@@ -17,5 +17,5 @@ public interface CDManager {
 
     SortedSet<CD> getAllCD();
 
-    CD getCDByID(int id);
+    CD getCDById(int id);
 }
