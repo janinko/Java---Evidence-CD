@@ -102,7 +102,7 @@ public class CDManagerImplTest {
 
 
         int actcount = 0;
-        Set<Integer> ids = new HashSet<Integer>;
+        Set<Integer> ids = new HashSet<Integer>();
         // tests if the returned CDs match the created
         for(CD cd : manager.getAllCD()){
             assertEquals("CD cislo: " + actcount, cd.getTitle());
