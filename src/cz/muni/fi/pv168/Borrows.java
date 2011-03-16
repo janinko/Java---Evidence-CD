@@ -9,7 +9,7 @@ import java.util.SortedSet;
  */
 public interface Borrows {
 
-    Borrow lend(Borrow borrow);
+    Borrow lend(Customer customer, Borrow borrow);
 
     Borrow putBack(Borrow borrow);
 
