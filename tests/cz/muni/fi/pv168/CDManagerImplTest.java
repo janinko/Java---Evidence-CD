@@ -116,7 +116,7 @@ public class CDManagerImplTest {
         assertNotNull(result);
 
         assertEquals("I'm modded!",result.getTitle());
-        assertEquals(1234,result.getTitle());
+        assertEquals(1234,result.getYear());
 
         // When trying to update null, we should get exception
         try{
@@ -150,7 +150,7 @@ public class CDManagerImplTest {
             assertEquals(2000 + actcount, cd.getYear());
             actcount++;
 
-            ids.add(new Integer(cd.getId()));
+            ids.add(cd.getId());
         }
 
         // tests if the ids differ
