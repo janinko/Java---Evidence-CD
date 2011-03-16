@@ -9,7 +9,7 @@ import java.util.SortedSet;
  */
 public class BorrowsImpl implements Borrows {
 
-    public Borrow lend(Customer customer, Borrow borrow) {
+    public Borrow lend(Borrow borrow) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
