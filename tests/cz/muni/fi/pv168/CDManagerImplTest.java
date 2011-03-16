@@ -49,21 +49,23 @@ public class CDManagerImplTest {
         assertEquals(cd.getYear(), result.getYear());
         assertEquals(cd.getId(), result.getYear());
 
-        try{
-            manager.createCD(new CD(cdId, "Dupplicate id", 34404));
-            fail();
-        }catch(InvalidArgumentException ex){
-            // OK
-        }catch(Exception ex){
-            fail();
-        }
-
+        // When trying to add null, we should get exception
         try{
             manager.createCD(null);
             fail();
         }catch (NullPointerException ex){
             // OK
         }catch (Exception ex){
+            fail();
+        }
+
+        // When trying to add CD with set id, we should get exception
+        try{
+            manager.createCD(new CD(cdId, "Dupplicate id", 34404));
+            fail();
+        }catch(InvalidArgumentException ex){
+            // OK
+        }catch(Exception ex){
             fail();
         }
     }
@@ -84,6 +86,16 @@ public class CDManagerImplTest {
 
         CD finded = manager.getCDById(cdId);
         assertNull(finded);
+
+        // When trying to delete null, we should get exception
+        try{
+            manager.deleteCD(null);
+            fail();
+        }catch (NullPointerException ex){
+            // OK
+        }catch (Exception ex){
+            fail();
+        }
     }
 
     @Test
@@ -105,6 +117,16 @@ public class CDManagerImplTest {
 
         assertEquals("I'm modded!",result.getTitle());
         assertEquals(1234,result.getTitle());
+
+        // When trying to update null, we should get exception
+        try{
+            manager.updateCD(null);
+            fail();
+        }catch (NullPointerException ex){
+            // OK
+        }catch (Exception ex){
+            fail();
+        }
     }
 
     @Test
