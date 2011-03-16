@@ -22,13 +22,10 @@ public class CDTest {
     @Test
     public void testCDConstructors(){
         CD cd1, cd2, cd3;
-        try{
-            cd1 = new CD();
-            cd2 = new CD(5);
-            cd3 = new CD(10,"titul", 1990);
-        }catch (Exception ex){
-            fail();
-        }
+
+        cd1 = new CD();
+        cd2 = new CD(5);
+        cd3 = new CD(10,"titul", 1990);
 
         assertEquals(cd1, cd1);
         assertEquals(cd2, cd2);
