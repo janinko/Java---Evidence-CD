@@ -1,10 +1,10 @@
 package cz.muni.fi.pv168;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Created by IntelliJ IDEA.
@@ -61,7 +61,7 @@ public class CDTest {
         // When trying to set negative ID we should get exception
         try{
             cd.setId(-5);
-        }catch (InvalidArgumentException ex){
+        }catch (IllegalArgumentException ex){
             // OK
         }catch (Exception ex){
             fail();

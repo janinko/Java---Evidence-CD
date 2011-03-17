@@ -1,6 +1,6 @@
 package cz.muni.fi.pv168;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class CustomerTest {
         // When trying to set negative ID we should get exception
         try{
             customer.setId(-5);
-        }catch (InvalidArgumentException ex){
+        }catch (IllegalArgumentException ex){
             // OK
         }catch (Exception ex){
             fail();

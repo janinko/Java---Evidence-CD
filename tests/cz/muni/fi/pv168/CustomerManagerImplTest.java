@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,7 +59,7 @@ public class CustomerManagerImplTest {
         try{
             manager.createCustomer(new Customer(35, "Jindra Hujer"));
             fail();
-        }catch(InvalidArgumentException ex){
+        }catch(IllegalArgumentException ex){
             // OK
         }catch(Exception ex){
             fail();
