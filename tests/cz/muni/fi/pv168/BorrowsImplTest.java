@@ -28,7 +28,7 @@ public class BorrowsImplTest {
     public void testLend() {
         Borrow borrow1;
         
-        // when we try to lend null, we should get an exception
+        // when we try to lend null borrow, we should get an exception
         try {
             borrows.lend(null);
             fail();
@@ -83,7 +83,7 @@ public class BorrowsImplTest {
 
     @Test
     public void testPutBack() {
-        Borrow borrow1 = createSampleBorrow1();
+        Borrow borrow1;
         Borrow borrow2;
 
 
@@ -95,8 +95,9 @@ public class BorrowsImplTest {
         catch (Exception ex) {
             fail();
         }
-        
+
         // when we try to put back a borrow with false active, we should get an exception
+        borrow1 = createSampleBorrow1();
         borrow1.setActive(false);
         try {
             borrows.putBack(borrow1);
@@ -154,9 +155,6 @@ public class BorrowsImplTest {
         catch (Exception ex) {
             fail();
         }
-        
-
-        
 
     }
 

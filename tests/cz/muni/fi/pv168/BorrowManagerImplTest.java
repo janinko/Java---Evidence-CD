@@ -23,26 +23,20 @@ public class BorrowManagerImplTest {
     public void testCreateBorrow() {
         Borrow borrow = createSampleBorrow();
 
-        // we add sample borrow into manager
+        // should be the same
         manager.createBorrow(borrow);
         Borrow managerBorrow = manager.getBorrowById(borrow.getId());
-
-        // should be the same
         assertEquals(borrow, managerBorrow);
 
 
+        // should be the same
         borrow = createSampleBorrow2();
-
-        // we add sample borrow into manager
         manager.createBorrow(borrow);
         managerBorrow = manager.getBorrowById(borrow.getId());
-
-        // should be the same
         assertEquals(borrow, managerBorrow);
 
 
-
-        // we try insert incorrect borrows
+        // when we try to create null borrow, we should get an exception
         try {
             manager.createBorrow(null);
             fail();
@@ -51,6 +45,7 @@ public class BorrowManagerImplTest {
             fail();
         }
 
+        // when we try to create a borrow with null CD, we should get an exception
         try {
             borrow = createSampleBorrow();
             borrow.setCd(null);
@@ -61,6 +56,7 @@ public class BorrowManagerImplTest {
             fail();
         }
 
+        // when we try to create a borrow with null customer, we should get an exception
         try {
             borrow = createSampleBorrow();
             borrow.setCustomer(null);
@@ -71,9 +67,10 @@ public class BorrowManagerImplTest {
             fail();
         }
 
+        // when we try to create a borrow with set id, we should get an exception
         try {
             borrow = createSampleBorrow();
-            borrow.setId(0);
+            borrow.setId(5);
             manager.createBorrow(borrow);
             fail();
         } catch (IllegalArgumentException ex) {}
@@ -86,18 +83,19 @@ public class BorrowManagerImplTest {
 
     @Test
     public void testDeleteBorrow() {
-        Borrow borrow = createSampleBorrow();
+        Borrow borrow1 = createSampleBorrow();
         Borrow borrow2 = createSampleBorrow2();
 
-        manager.createBorrow(borrow);
+        manager.createBorrow(borrow1);
         manager.createBorrow(borrow2);
 
-        Borrow managerBorrow = manager.getBorrowById(borrow.getId());
+        Borrow managerBorrow1 = manager.getBorrowById(borrow1.getId());
         Borrow managerBorrow2 = manager.getBorrowById(borrow2.getId());
 
-        assertEquals(borrow, manager.deleteBorrow(managerBorrow));
+        assertEquals(borrow1, manager.deleteBorrow(managerBorrow1));
         assertEquals(borrow2, manager.deleteBorrow(managerBorrow2));
 
+        // when we try to delete null borrow, we should get an exception
         try {
             manager.deleteBorrow(null);
             fail();
@@ -106,8 +104,9 @@ public class BorrowManagerImplTest {
             fail();
         }
 
+        // when we try to delete a nonexistent borrow, we should get an exception
         try {
-            manager.deleteBorrow(borrow);
+            manager.deleteBorrow(borrow1);
             fail();
         } catch (IllegalArgumentException ex) {}
         catch (Exception ex) {
@@ -118,19 +117,13 @@ public class BorrowManagerImplTest {
     @Test
     public void testUpdateBorrow() {
         Borrow borrow = createSampleBorrow();
-
-        // we add sample borrow into manager
         manager.createBorrow(borrow);
         Borrow managerBorrow = manager.getBorrowById(borrow.getId());
 
-        // we edit sample borrow
+        // borrows should be the same
         borrow.setCd(new CD(2, "The Test Album 2", 2011));
         borrow.setActive(false);
-
-        // we try update borrow into manager
         manager.updateBorrow(borrow);
-
-        // borrows should be the same
         assertEquals(borrow, managerBorrow);
 
         // attributes should be the same
