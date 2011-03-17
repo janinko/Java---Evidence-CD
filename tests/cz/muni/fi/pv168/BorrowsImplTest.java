@@ -7,7 +7,7 @@ import static junit.framework.Assert.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: fivekeyem
+ * User: fivekeyem, janinko
  * Date: 3/16/11
  */
 public class BorrowsImplTest {

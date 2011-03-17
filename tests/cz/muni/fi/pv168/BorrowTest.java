@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 /**
  * Created by IntelliJ IDEA.
- * User: fivekeyem
+ * User: fivekeyem, janinko
  * Date: 3/14/11
  */
 public class BorrowTest {
