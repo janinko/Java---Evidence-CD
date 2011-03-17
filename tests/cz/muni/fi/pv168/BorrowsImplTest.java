@@ -163,6 +163,15 @@ public class BorrowsImplTest {
     @Test
     public void testGetAllBorrows() {
 
+        // when we try to get all borrows for null, we should get an exception
+        try {
+            borrows.getAllBorrows(null);
+            fail();
+        } catch (NullPointerException ex) {}
+        catch (Exception ex) {
+            fail();
+        }
+
     }
 
     @Test
