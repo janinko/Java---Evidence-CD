@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static junit.framework.Assert.*;
 
@@ -173,16 +174,16 @@ public class BorrowsImplTest {
     private Borrow createSampleBorrow1() {
         CD cd = new CD(1, "The Album 1", 2011);
         Customer customer = new Customer(1, "User Name 1");
-        Calendar from = Calendar.getInstance();
-        Calendar to = Calendar.getInstance();
+        Calendar from = new GregorianCalendar(2011, 4, 22);
+        Calendar to = new GregorianCalendar(2011, 4, 23);
         return new Borrow(1, cd, customer, true, from, to);
     }
 
     private Borrow createSampleBorrow2() {
         CD cd = new CD(2, "The Album 2", 2011);
         Customer customer = new Customer(2, "User Name 2");
-        Calendar from = Calendar.getInstance();
-        Calendar to = Calendar.getInstance();
+        Calendar from = new GregorianCalendar(2011, 5, 22);
+        Calendar to = new GregorianCalendar(2011, 5, 23);
         return new Borrow(2, cd, customer, true, from, to);
     }
     

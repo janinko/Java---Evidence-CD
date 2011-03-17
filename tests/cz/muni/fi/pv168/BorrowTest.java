@@ -3,6 +3,7 @@ package cz.muni.fi.pv168;
 import org.junit.Test;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import static org.junit.Assert.*;
 
@@ -19,10 +20,10 @@ public class BorrowTest {
         CD cd2 = new CD(2, "The Album 2", 2011);
         Customer customer1 = new Customer(1, "User Name");
         Customer customer2 = new Customer(2, "User Name 2");
-        Calendar from1 = Calendar.getInstance();
-        Calendar to1 = Calendar.getInstance();
-        Calendar from2 = Calendar.getInstance();
-        Calendar to2 = Calendar.getInstance();
+        Calendar from1 = new GregorianCalendar(2011, 4, 22);
+        Calendar to1 = new GregorianCalendar(2011, 4, 23);
+        Calendar from2 = new GregorianCalendar(2011, 5, 22);
+        Calendar to2 = new GregorianCalendar(2011, 5, 23);
         Borrow borrow1 = new Borrow(1, cd1, customer1, true, from1, to1);
         Borrow borrow2 = new Borrow(2, cd2, customer2, false, from2, to2);
 
