@@ -23,11 +23,55 @@ public class BorrowsImplTest {
 
     @Test
     public void testLend() {
+        Borrow borrow1;
         
+        // when we try to lend null, we should get an exception
         try {
             borrows.lend(null);
             fail();
         } catch (NullPointerException ex) {}
+        catch (Exception ex) {
+            fail();
+        }
+
+        // when we try to lend null, we should get an exception
+        try {
+            borrows.lend(null);
+            fail();
+        } catch (NullPointerException ex) {}
+        catch (Exception ex) {
+            fail();
+        }
+
+        // when we try to lend a borrow with true active, we should get an exception
+        borrow1 = createSampleBorrow1();
+        borrow1.setActive(true);
+        try {
+            borrows.putBack(borrow1);
+            fail();
+        } catch (IllegalArgumentException ex) {}
+        catch (Exception ex) {
+            fail();
+        }
+
+        // when we try to lend a borrow with null CD, we should get an exception
+        borrow1 = createSampleBorrow1();
+        borrow1.setCd(null);
+        try {
+            borrows.lend(borrow1);
+            fail();
+        } catch (IllegalArgumentException ex) {}
+        catch (Exception ex) {
+            fail();
+        }
+
+        // when we try to lend a borrow with null Customer, we should get an exception
+        borrow1 = createSampleBorrow1();
+        borrow1.setCustomer(null);
+        try {
+            borrows.lend(borrow1);
+            fail();
+        } catch (IllegalArgumentException ex) {}
         catch (Exception ex) {
             fail();
         }
@@ -83,6 +127,8 @@ public class BorrowsImplTest {
 
 
         // this is ok
+        // fixme
+        // we don't know undermentioned manager in BorrowsImpl
         borrow1 = createSampleBorrow1();
         manager.createBorrow(borrow1);
 
@@ -93,6 +139,7 @@ public class BorrowsImplTest {
         }
 
         // when we try to put back a borrow that isn't contained in manager, we should get an exception
+        // fixme
         borrow1 = createSampleBorrow1();
         manager.createBorrow(borrow1);
         borrow2 = createSampleBorrow2();
