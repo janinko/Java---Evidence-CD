@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168;
 
+import java.util.Calendar;
+
 /**
  * Created by IntelliJ IDEA.
  * User: fivekeyem, janinko
@@ -11,12 +13,17 @@ public class Borrow {
     private CD cd;
     private Customer customer;
     private boolean active;
+    private Calendar from;
+    private Calendar to;
+
 
     public Borrow() {
         this.id = 0;
         this.cd = null;
         this.customer = null;
         this.active = false;
+        this.from = null;
+        this.to = null;
     }
 
     public Borrow(int id) {
@@ -24,15 +31,18 @@ public class Borrow {
         this.cd = null;
         this.customer = null;
         this.active = false;
+        this.from = null;
+        this.to = null;
     }
 
-    public Borrow(int id, CD cd, Customer customer, boolean active) {
+    public Borrow(int id, CD cd, Customer customer, boolean active, Calendar from, Calendar to) {
         this.id = id;
         this.cd = cd;
         this.customer = customer;
         this.active = active;
+        this.from = from;
+        this.to = to;
     }
-
 
     public int getId() {
         return id;
@@ -64,5 +74,22 @@ public class Borrow {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+
+    public Calendar getFrom() {
+        return from;
+    }
+
+    public void setFrom(Calendar from) {
+        this.from = from;
+    }
+
+    public Calendar getTo() {
+        return to;
+    }
+
+    public void setTo(Calendar to) {
+        this.to = to;
     }
 }

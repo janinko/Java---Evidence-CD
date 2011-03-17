@@ -2,6 +2,8 @@ package cz.muni.fi.pv168;
 
 import org.junit.Test;
 
+import java.util.Calendar;
+
 import static org.junit.Assert.*;
 
 /**
@@ -17,27 +19,35 @@ public class BorrowTest {
         CD cd2 = new CD(2, "The Album 2", 2011);
         Customer customer1 = new Customer(1, "User Name");
         Customer customer2 = new Customer(2, "User Name 2");
-        Borrow borrow1 = new Borrow(1, cd1, customer1, true);
-        Borrow borrow2 = new Borrow(2, cd2, customer2, false);
+        Calendar from1 = Calendar.getInstance();
+        Calendar to1 = Calendar.getInstance();
+        Calendar from2 = Calendar.getInstance();
+        Calendar to2 = Calendar.getInstance();
+        Borrow borrow1 = new Borrow(1, cd1, customer1, true, from1, to1);
+        Borrow borrow2 = new Borrow(2, cd2, customer2, false, from2, to2);
 
         // basic comparing
         assertFalse(borrow1.equals(null));
         assertFalse(borrow1.equals(borrow2));
 
-        borrow2.setId(1);
+
 
         // only id is the same
         // this kind of instance shouldn't exist!
+        borrow2.setId(1);
+
         assertFalse(borrow1.equals(borrow2));
         assertFalse(borrow2.equals(borrow1));
 
         
+        // id is different, others are the same
         borrow2.setCustomer(customer1);
         borrow2.setCd(cd1);
         borrow2.setActive(true);
+        borrow2.setFrom(from1);
+        borrow2.setTo(to1);
         borrow2.setId(2);
 
-        // id is different, others are the same
         assertFalse(borrow1.equals(borrow2));
         assertFalse(borrow2.equals(borrow1));
 
