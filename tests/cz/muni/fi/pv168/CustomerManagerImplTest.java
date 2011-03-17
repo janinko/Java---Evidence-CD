@@ -58,7 +58,7 @@ public class CustomerManagerImplTest {
 
         // When trying to add Customer with set id, we should get exception
         try{
-            manager.createCustomer(new Customer(customerId, "Dupplicate id", 34404));
+            manager.createCustomer(new Customer(35, "Jindra Hujer"));
             fail();
         }catch(InvalidArgumentException ex){
             // OK
