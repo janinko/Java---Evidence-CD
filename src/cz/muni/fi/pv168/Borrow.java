@@ -92,4 +92,25 @@ public class Borrow {
     public void setTo(Calendar to) {
         this.to = to;
     }
+
+    @Override
+    public boolean equals(Object o){
+        if(! (o instanceof Borrow))
+            return false;
+
+        Borrow oo = (Borrow) o;
+
+        if(this.getId() != oo.getId())
+            return false;
+        if(this.getCustomer() != oo.getCustomer())
+            return false;
+        if(this.getCd().equals(oo.getCd()))
+            return false;
+        if(this.getFrom() != oo.getFrom())
+            return false;
+        if(this.getFrom() != oo.getFrom())
+            return false;
+
+        return true;
+    }
 }
