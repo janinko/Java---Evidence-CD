@@ -27,7 +27,6 @@ public class CustomerManagerImpl implements CustomerManager {
     public CustomerManagerImpl() {
         try {
             conn = DriverManager.getConnection("jdbc:derby://localhost:1527/evidencedb", "evname", "evpass");
-            System.out.println("jsem ready");
 
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when connecting to DB", ex);
@@ -81,7 +80,7 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FORM customers WHERE id=?");
+            st = conn.prepareStatement("DELETE FROM customers WHERE id=?");
             st.setInt(1, customer.getId());
             if (st.executeUpdate() == 0) {
                 throw new IllegalArgumentException("customer not found");

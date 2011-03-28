@@ -16,11 +16,29 @@ public class Demo {
 
     public static void main(String[] args) {
 
+        Customer kuba = new Customer();
+        kuba.setName("Kuba Novak");
+        System.out.println(kuba);
+
+        Customer c = new Customer();
+
         CustomerManager manager = new CustomerManagerImpl();
         
+        System.out.println("----------");
         for (Customer customer : manager.getAllCustomers()) {
-            System.out.println(customer.getName());
+            System.out.println(customer);
+            c = customer;
         }
+        System.out.println("----------");
+        
+        manager.deleteCustomer(c);
+
+        for (Customer customer : manager.getAllCustomers()) {
+            System.out.println(customer);
+        }
+        System.out.println("----------");
+
+        
         
     }
 }

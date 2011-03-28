@@ -42,6 +42,7 @@ public class Customer implements Comparable<Customer> {
         this.name = name;
     }
 
+
     public int compareTo(Customer c) {
         int result = id - c.id;
         if (result != 0) {
@@ -50,4 +51,29 @@ public class Customer implements Comparable<Customer> {
 
         return name.compareTo(c.name);
     }
+    
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Customer)) {
+            return false;
+        }
+        Customer c = (Customer) o;
+        return (id == c.id) && name.equals(c.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 37 * result + id;
+        result = 37 * result + name.hashCode();
+        return result;
+    }
+    
+
+    @Override
+    public String toString() {
+        return id + ", " + name;
+    }
+
 }
