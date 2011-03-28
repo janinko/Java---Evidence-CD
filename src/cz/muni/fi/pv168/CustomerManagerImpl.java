@@ -73,10 +73,36 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         
     }
+    
 
     public Customer deleteCustomer(Customer customer) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (customer == null) {
+            throw new NullPointerException("customer");
+        }
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("DELETE FORM customers WHERE id=?");
+            st.setInt(1, customer.getId());
+            if (st.executeUpdate() == 0) {
+                throw new IllegalArgumentException("customer not found");
+            }
+            return customer;
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error when deleting customer from DB", ex);
+            throw new RuntimeException("Error when deleting customer from DB", ex);
+        } finally {
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    logger.log(Level.SEVERE, "Error when closing connection", ex);
+                }
+            }
+        }
+
     }
+
+    
 
     public Customer updateCustomer(Customer customer) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
