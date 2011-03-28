@@ -5,7 +5,7 @@ package cz.muni.fi.pv168;
  * User: fivekeyem, janinko
  * Date: 3/6/11
  */
-public class Customer {
+public class Customer implements Comparable<Customer> {
 
     private int id;
     private String name;
@@ -40,5 +40,14 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int compareTo(Customer c) {
+        int result = id - c.id;
+        if (result != 0) {
+            return result;
+        }
+
+        return name.compareTo(c.name);
     }
 }

@@ -1,5 +1,8 @@
 package cz.muni.fi.pv168;
 
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,8 +16,11 @@ public class Demo {
 
     public static void main(String[] args) {
 
-        CustomerManager cm = new CustomerManagerImpl();
-
-        cm.getAllCustomers();
+        CustomerManager manager = new CustomerManagerImpl();
+        
+        for (Customer customer : manager.getAllCustomers()) {
+            System.out.println(customer.getName());
+        }
+        
     }
 }

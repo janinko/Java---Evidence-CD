@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -36,7 +37,41 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     public Customer createCustomer(Customer customer) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (customer == null) {
+            throw new NullPointerException("customer");
+        }
+        if (customer.getId() != 0) {
+            throw new IllegalArgumentException("id is set");
+        }
+        if (customer.getName() == null) {
+            throw new NullPointerException("customer's name");
+        }
+
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("INSERT INTO CUSTOMERS (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            st.setString(1, customer.getName());
+
+            int count = st.executeUpdate();
+            assert count == 1;
+
+            //int id = getId(st.getGeneratedKeys());
+            //customer.setId(id);
+
+            return customer;
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error when inserting grave into DB", ex);
+            throw new RuntimeException("Error when inserting into DB", ex);
+        } finally {
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    logger.log(Level.SEVERE, "Error when closing connection", ex);
+                }
+            }
+        }
+        
     }
 
     public Customer deleteCustomer(Customer customer) {
