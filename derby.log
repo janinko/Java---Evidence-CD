@@ -1,14 +1,14 @@
 ----------------------------------------------------------------
-Tue Mar 29 22:32:54 CEST 2011:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.7.1.1 - (1040133): instance a816c00e-012f-0351-ab31-000001989cf0 
+Tue Mar 29 23:33:10 CEST 2011:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.7.1.1 - (1040133): instance a816c00e-012f-0388-d77a-00000198dcf0 
 on database directory memory:/home/fivekeyem/data/school-mu/mu-predmety/2st-sem/pv168_seminář-z-programování-v-jazyce-Java/projekt_evidence/main-evidence/Java---Evidence-CD/evidencedbtest  with class loader sun.misc.Launcher$AppClassLoader@cac268 
 Loaded from file:/home/fivekeyem/data/school-mu/mu-predmety/2st-sem/pv168_semin%c3%a1%c5%99-z-programov%c3%a1n%c3%ad-v-jazyce-Java/projekt_evidence/main-evidence/Java---Evidence-CD/lib/derby.jar
 java.vendor=Sun Microsystems Inc.
 java.runtime.version=1.6.0_24-b07
 Database Class Loader started - derby.database.classpath=''
 ----------------------------------------------------------------
-Tue Mar 29 22:32:56 CEST 2011:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.7.1.1 - (1040133): instance 7815c0b6-012f-0351-ab31-000001989cf0 
+Tue Mar 29 23:33:12 CEST 2011:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.7.1.1 - (1040133): instance 9a4840c2-012f-0388-d77a-00000198dcf0 
 on database directory memory:/home/fivekeyem/data/school-mu/mu-predmety/2st-sem/pv168_seminář-z-programování-v-jazyce-Java/projekt_evidence/main-evidence/Java---Evidence-CD/evidencedbtest2  with class loader sun.misc.Launcher$AppClassLoader@cac268 
 Loaded from file:/home/fivekeyem/data/school-mu/mu-predmety/2st-sem/pv168_semin%c3%a1%c5%99-z-programov%c3%a1n%c3%ad-v-jazyce-Java/projekt_evidence/main-evidence/Java---Evidence-CD/lib/derby.jar
 java.vendor=Sun Microsystems Inc.
