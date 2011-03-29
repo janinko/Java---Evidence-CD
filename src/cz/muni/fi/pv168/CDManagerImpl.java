@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -92,7 +94,34 @@ public class CDManagerImpl implements CDManager {
     }
 
     public SortedSet<CD> getAllCD() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("SELECT * FROM cds");
+            ResultSet rs = st.executeQuery();
+            SortedSet<CD> allCDs = new TreeSet<CD>();
+
+            while (rs.next()) {
+                CD cd = new CD();
+                cd.setId(rs.getInt("id"));
+                cd.setTitle(rs.getString("title"));
+                cd.setYear(rs.getInt("year"));
+                allCDs.add(cd);
+            }
+            return Collections.unmodifiableSortedSet(allCDs);
+
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error when getting all cds from DB", ex);
+            throw new RuntimeException("Error when getting all cds from DB", ex);
+        } finally {
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    logger.log(Level.SEVERE, "Error when closing connection", ex);
+                }
+            }
+        }
     }
 
     public CD getCDById(int id) {
