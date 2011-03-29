@@ -18,6 +18,7 @@ public class Demo {
 
         Customer kuba = new Customer();
         kuba.setName("Kuba Novak");
+        kuba.setId(0);
         System.out.println(kuba);
 
         Customer c = new Customer();
@@ -38,7 +39,12 @@ public class Demo {
         }
         System.out.println("----------");
 
-        
+        manager.createCustomer(kuba);
+
+        for (Customer customer : manager.getAllCustomers()) {
+            System.out.println(customer);
+        }
+        System.out.println("----------");
         
     }
 }
