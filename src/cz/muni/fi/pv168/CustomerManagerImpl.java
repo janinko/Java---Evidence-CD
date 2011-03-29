@@ -26,7 +26,8 @@ public class CustomerManagerImpl implements CustomerManager {
 
     public CustomerManagerImpl() {
         try {
-            conn = DriverManager.getConnection("jdbc:derby://localhost:1527/evidencedb", "evname", "evpass");
+            String url = "jdbc:derby://localhost:1527/evidencedb";
+            conn = DriverManager.getConnection(url, "evname", "evpass");
 
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when connecting to DB", ex);
