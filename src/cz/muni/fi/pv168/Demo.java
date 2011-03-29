@@ -21,9 +21,9 @@ public class Demo {
         kuba.setId(0);
         System.out.println(kuba);
 
-        Customer c = new Customer("jdbc:derby://localhost:1527/evidencedb");
+        Customer c = new Customer();
 
-        CustomerManager manager = new CustomerManagerImpl();
+        CustomerManager manager = new CustomerManagerImpl("jdbc:derby://localhost:1527/evidencedb");
         
         System.out.println("----------");
         for (Customer customer : manager.getAllCustomers()) {

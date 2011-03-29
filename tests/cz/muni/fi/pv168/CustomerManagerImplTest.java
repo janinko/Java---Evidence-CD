@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168;
 
+import java.sql.PreparedStatement;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,8 @@ public class CustomerManagerImplTest {
 
     @Before
     public void setUp()  {
-        manager = new CustomerManagerImpl();
+        manager = new CustomerManagerImpl("jdbc:derby:memory:patient;create=true");
+        
     }
 
     @After

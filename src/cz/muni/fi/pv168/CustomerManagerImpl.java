@@ -28,6 +28,15 @@ public class CustomerManagerImpl implements CustomerManager {
         try {
             conn = DriverManager.getConnection(url, "evname", "evpass");
 
+            ResultSet checkTable = conn.getMetaData().getTables(null, null, "CUSTOMERS", null); // todo
+            // when tables is not existing
+            if (!checkTable.next()) {
+                Statement st = conn.createStatement();
+                st.executeUpdate("CREATE TABLE customers ("
+                        + "id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
+                        + "name VARCHAR(30))");
+            }
+
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when connecting to DB", ex);
         }
