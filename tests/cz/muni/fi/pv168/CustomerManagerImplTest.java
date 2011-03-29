@@ -37,7 +37,7 @@ public class CustomerManagerImplTest {
         manager.createCustomer(customer);
 
         int customerId = customer.getId();
-        assertNotNull(customerId);
+        assertNotNull(customerId); // todo
 
         Customer result = manager.getCustomerById(customerId);
         assertNotNull(result);
@@ -123,6 +123,7 @@ public class CustomerManagerImplTest {
 
     @Test
     public void testGetAllCustomer() {
+        
         int count = 15;
 
         // creates bunch of Customers

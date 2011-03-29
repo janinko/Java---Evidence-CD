@@ -21,7 +21,7 @@ public class Demo {
         kuba.setId(0);
         System.out.println(kuba);
 
-        Customer c = new Customer();
+        Customer c = new Customer("jdbc:derby://localhost:1527/evidencedb");
 
         CustomerManager manager = new CustomerManagerImpl();
         
@@ -45,6 +45,8 @@ public class Demo {
             System.out.println(customer);
         }
         System.out.println("----------");
+
+        System.out.println(manager.getCustomerById(89));
         
     }
 }

@@ -24,9 +24,8 @@ public class CustomerManagerImpl implements CustomerManager {
         CustomerManagerImpl.class.getName());
 
 
-    public CustomerManagerImpl() {
+    public CustomerManagerImpl(String url) {
         try {
-            String url = "jdbc:derby://localhost:1527/evidencedb";
             conn = DriverManager.getConnection(url, "evname", "evpass");
 
         } catch (SQLException ex) {
@@ -138,6 +137,38 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     public Customer getCustomerById(int id) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (id == 0) {
+            throw new IllegalArgumentException("id");
+        }
+        PreparedStatement st = null;
+
+        try {
+            st = conn.prepareStatement("SELECT * FROM customers WHERE id=?");
+            st.setInt(1, id);
+            ResultSet rs = st.executeQuery();
+            Customer customer = null;
+            if (rs.next()) { 
+                customer = new Customer();
+                customer.setId(rs.getInt("id"));
+                customer.setName(rs.getString("name"));
+                if (rs.next()) {
+                    throw new RuntimeException("customer");
+                }
+            }
+            return customer;
+
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error when getting customer by id from DB", ex);
+            throw new RuntimeException("Error when getting customers by id from DB", ex);
+        } finally {
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    logger.log(Level.SEVERE, "Error when closing connection", ex);
+                }
+            }
+        }
+        
     }
 }
