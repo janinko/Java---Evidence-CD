@@ -23,7 +23,6 @@ public class CustomerManagerImpl implements CustomerManager {
     private static final Logger logger = Logger.getLogger(
         CustomerManagerImpl.class.getName());
 
-
     public CustomerManagerImpl(String url) {
         try {
             conn = DriverManager.getConnection(url, "evname", "evpass");
@@ -46,6 +45,7 @@ public class CustomerManagerImpl implements CustomerManager {
         
     }
 
+    
     public Customer createCustomer(Customer customer) {
         if (customer == null) {
             throw new NullPointerException("customer");
@@ -118,6 +118,7 @@ public class CustomerManagerImpl implements CustomerManager {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+
     public SortedSet<Customer> getAllCustomers() {
         PreparedStatement st = null;
         try {
@@ -147,6 +148,7 @@ public class CustomerManagerImpl implements CustomerManager {
         }
     }
 
+    
     public Customer getCustomerById(int id) {
         if (id == 0) {
             throw new IllegalArgumentException("id");

@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168;
 
-import java.sql.PreparedStatement;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -124,17 +123,22 @@ public class CustomerManagerImplTest {
 
     @Test
     public void testGetAllCustomer() {
+        // new in-memory database with different name
+        manager = new CustomerManagerImpl("jdbc:derby:memory:evidencedbtest2;create=true");
+
+        System.out.println("Count before: " + manager.getAllCustomers().size());
+        for (Customer c: manager.getAllCustomers()) {
+            System.out.println(c);
+        }
         
         int count = 15;
-
         // creates bunch of Customers
         for(int i=0; i < count; i++){
             manager.createCustomer(new Customer(0, "Customer cislo: " + i));
-            System.out.println(i);
         }
+        System.out.println("Count after: " + manager.getAllCustomers().size());
 
         // tests if the returned collection size match the desired count
-        System.out.println("Pocet vsech je: " + manager.getAllCustomers().size());
         assertEquals(count, manager.getAllCustomers().size());
 
 
