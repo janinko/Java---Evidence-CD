@@ -62,7 +62,29 @@ public class CDManagerImpl implements CDManager {
     }
 
     public CD deleteCD(CD cd) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (cd == null) {
+            throw new NullPointerException("cd");
+        }
+        PreparedStatement st = null;
+        try {
+            st = conn.prepareStatement("DELETE FROM cds WHERE id=?");
+            st.setInt(1, cd.getId());
+            if (st.executeUpdate() == 0) {
+                throw new IllegalArgumentException("customer not found");
+            }
+            return cd;
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error when deleting cd from DB", ex);
+            throw new RuntimeException("Error when deleting cd from DB", ex);
+        } finally {
+            if (st != null) {
+                try {
+                    st.close();
+                } catch (SQLException ex) {
+                    logger.log(Level.SEVERE, "Error when closing connection", ex);
+                }
+            }
+        }
     }
 
     public CD updateCD(CD cd) {
