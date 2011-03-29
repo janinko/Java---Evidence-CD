@@ -59,7 +59,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
             return customer;
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error when inserting grave into DB", ex);
+            logger.log(Level.SEVERE, "Error when inserting customer into DB", ex);
             throw new RuntimeException("Error when inserting into DB", ex);
         } finally {
             if (st != null) {
