@@ -55,8 +55,8 @@ public class CustomerManagerImpl implements CustomerManager {
             int count = st.executeUpdate();
             assert count == 1;
 
-            //int id = getId(st.getGeneratedKeys());
-            //customer.setId(id);
+            int id = HelperDB.getId(st.getGeneratedKeys());
+            customer.setId(id);
 
             return customer;
         } catch (SQLException ex) {
