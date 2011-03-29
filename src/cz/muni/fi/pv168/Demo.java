@@ -1,8 +1,5 @@
 package cz.muni.fi.pv168;
 
-import java.util.SortedSet;
-import java.util.TreeSet;
-
 
 /**
  * Created by IntelliJ IDEA.

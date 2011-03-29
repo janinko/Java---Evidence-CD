@@ -28,12 +28,12 @@ public class CustomerManagerImpl implements CustomerManager {
             conn = DriverManager.getConnection(url, "evname", "evpass");
 
             // TODO, do not use literals like "CUSTOMERS"
-            ResultSet checkTable = conn.getMetaData().getTables(null, null, "customers", null);
+            ResultSet checkTable = conn.getMetaData().getTables(null, null, "CUSTOMERS", null);
             // when tables is not existing
             // todo
             if (!checkTable.next()) {
                 Statement st = conn.createStatement();
-                st.executeUpdate("CREATE TABLE customers ("
+                st.executeUpdate("CREATE TABLE CUSTOMERS ("
                         + "id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
                         + "name VARCHAR(30))");
             }
@@ -59,7 +59,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("INSERT INTO customers (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO CUSTOMERS (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, customer.getName());
 
             int count = st.executeUpdate();
@@ -91,7 +91,7 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM customers WHERE id=?");
+            st = conn.prepareStatement("DELETE FROM CUSTOMERS WHERE id=?");
             st.setInt(1, customer.getId());
             if (st.executeUpdate() == 0) {
                 throw new IllegalArgumentException("customer not found");
@@ -120,7 +120,7 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("UPDATE customers SET name=? WHERE id=?");
+            st = conn.prepareStatement("UPDATE CUSTOMERS SET name=? WHERE id=?");
             st.setString(1, customer.getName());
             st.setInt(2, customer.getId());
             if (st.executeUpdate() == 0) {
@@ -145,7 +145,7 @@ public class CustomerManagerImpl implements CustomerManager {
     public SortedSet<Customer> getAllCustomers() {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("SELECT * FROM customers");
+            st = conn.prepareStatement("SELECT * FROM CUSTOMERS");
             ResultSet rs = st.executeQuery();
             SortedSet<Customer> allCustomers = new TreeSet<Customer>();
 
@@ -158,8 +158,8 @@ public class CustomerManagerImpl implements CustomerManager {
             return Collections.unmodifiableSortedSet(allCustomers);
 
         } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error when getting all customers from DB", ex);
-            throw new RuntimeException("Error when getting all customers from DB", ex);
+            logger.log(Level.SEVERE, "Error when getting all CUSTOMERS from DB", ex);
+            throw new RuntimeException("Error when getting all CUSTOMERS from DB", ex);
         } finally {
             if (st != null) {
                 try {
@@ -179,7 +179,7 @@ public class CustomerManagerImpl implements CustomerManager {
         PreparedStatement st = null;
 
         try {
-            st = conn.prepareStatement("SELECT * FROM customers WHERE id=?");
+            st = conn.prepareStatement("SELECT * FROM CUSTOMERS WHERE id=?");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             Customer customer = null;
@@ -195,7 +195,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when getting customer by id from DB", ex);
-            throw new RuntimeException("Error when getting customers by id from DB", ex);
+            throw new RuntimeException("Error when getting CUSTOMERS by id from DB", ex);
         } finally {
             if (st != null) {
                 try {
