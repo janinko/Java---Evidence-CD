@@ -28,8 +28,10 @@ public class CustomerManagerImpl implements CustomerManager {
         try {
             conn = DriverManager.getConnection(url, "evname", "evpass");
 
-            ResultSet checkTable = conn.getMetaData().getTables(null, null, "CUSTOMERS", null); // todo
+            // TODO, do not use literals like "CUSTOMERS"
+            ResultSet checkTable = conn.getMetaData().getTables(null, null, "CUSTOMERS", null);
             // when tables is not existing
+            // todo
             if (!checkTable.next()) {
                 Statement st = conn.createStatement();
                 st.executeUpdate("CREATE TABLE customers ("

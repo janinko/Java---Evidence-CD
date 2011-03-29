@@ -19,12 +19,11 @@ import static org.junit.Assert.*;
  * To change this template use File | Settings | File Templates.
  */
 public class CustomerManagerImplTest {
-    CustomerManager manager;
+    private CustomerManager manager;
 
     @Before
     public void setUp()  {
-        manager = new CustomerManagerImpl("jdbc:derby:memory:patient;create=true");
-        
+        manager = new CustomerManagerImpl("jdbc:derby:memory:evidencedbtest;create=true");
     }
 
     @After
@@ -131,9 +130,11 @@ public class CustomerManagerImplTest {
         // creates bunch of Customers
         for(int i=0; i < count; i++){
             manager.createCustomer(new Customer(0, "Customer cislo: " + i));
+            System.out.println(i);
         }
 
         // tests if the returned collection size match the desired count
+        System.out.println("Pocet vsech je: " + manager.getAllCustomers().size());
         assertEquals(count, manager.getAllCustomers().size());
 
 
