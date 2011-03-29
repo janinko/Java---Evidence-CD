@@ -35,7 +35,7 @@ public class CDManagerImpl implements CDManager {
 
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("INSERT INTO CUSTOMERS (title, year) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+            st = conn.prepareStatement("INSERT INTO cds (title, year) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, cd.getTitle());
             st.setInt(2, cd.getYear());
 
