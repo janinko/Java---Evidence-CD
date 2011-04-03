@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +10,10 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,23 +22,33 @@ import java.util.logging.Logger;
  */
 public class CustomerManagerImpl implements CustomerManager {
 
-    private Connection conn;
+    private DataSource ds;
     private static final Logger logger = Logger.getLogger(
         CustomerManagerImpl.class.getName());
 
-    public CustomerManagerImpl(String url) {
-        try {
-            conn = DriverManager.getConnection(url, "evname", "evpass");
 
+    public CustomerManagerImpl() {
+    }
+    
+    public void setDs(DataSource ds) {
+        this.ds = ds;
+    }
+
+
+    public CustomerManagerImpl(String url) throws NamingException {
+        try {
+            Context ctx = (Context) new InitialContext().lookup("java:comp/env");
+            ds = (DataSource) ctx.lookup(url);
+
+            Connection conn = ds.getConnection("evname", "evpass");
+            
             // TODO, do not use literals like "CUSTOMERS"
             ResultSet checkTable = conn.getMetaData().getTables(null, null, "CUSTOMERS", null);
             // when tables is not existing
             // todo
             if (!checkTable.next()) {
                 Statement st = conn.createStatement();
-                st.executeUpdate("CREATE TABLE CUSTOMERS ("
-                        + "id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
-                        + "name VARCHAR(30))");
+                HelperDB.createTables(ds);
             }
 
         } catch (SQLException ex) {
@@ -57,9 +70,10 @@ public class CustomerManagerImpl implements CustomerManager {
             throw new NullPointerException("customer's name");
         }
 
-        PreparedStatement st = null;
+        Connection conn = null;
         try {
-            st = conn.prepareStatement("INSERT INTO CUSTOMERS (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("INSERT INTO CUSTOMERS (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, customer.getName());
 
             int count = st.executeUpdate();
@@ -73,13 +87,7 @@ public class CustomerManagerImpl implements CustomerManager {
             logger.log(Level.SEVERE, "Error when inserting customer into DB", ex);
             throw new RuntimeException("Error when inserting into DB", ex);
         } finally {
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException ex) {
-                    logger.log(Level.SEVERE, "Error when closing connection", ex);
-                }
-            }
+            HelperDB.closeConn(conn);
         }
         
     }
@@ -89,9 +97,10 @@ public class CustomerManagerImpl implements CustomerManager {
         if (customer == null) {
             throw new NullPointerException("customer");
         }
-        PreparedStatement st = null;
+        Connection conn = null;
         try {
-            st = conn.prepareStatement("DELETE FROM CUSTOMERS WHERE id=?");
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("DELETE FROM CUSTOMERS WHERE id=?");
             st.setInt(1, customer.getId());
             if (st.executeUpdate() == 0) {
                 throw new IllegalArgumentException("customer not found");
@@ -101,13 +110,7 @@ public class CustomerManagerImpl implements CustomerManager {
             logger.log(Level.SEVERE, "Error when deleting customer from DB", ex);
             throw new RuntimeException("Error when deleting customer from DB", ex);
         } finally {
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException ex) {
-                    logger.log(Level.SEVERE, "Error when closing connection", ex);
-                }
-            }
+            HelperDB.closeConn(conn);
         }
 
     }
@@ -118,9 +121,10 @@ public class CustomerManagerImpl implements CustomerManager {
         if (customer == null) {
             throw new NullPointerException("customer");
         }
-        PreparedStatement st = null;
+        Connection conn = null;
         try {
-            st = conn.prepareStatement("UPDATE CUSTOMERS SET name=? WHERE id=?");
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("UPDATE CUSTOMERS SET name=? WHERE id=?");
             st.setString(1, customer.getName());
             st.setInt(2, customer.getId());
             if (st.executeUpdate() == 0) {
@@ -131,21 +135,16 @@ public class CustomerManagerImpl implements CustomerManager {
             logger.log(Level.SEVERE, "Error when updating customer in DB", ex);
             throw new RuntimeException("Error when updating customer in DB", ex);
         } finally {
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException ex) {
-                    logger.log(Level.SEVERE, "Error when closing connection", ex);
-                }
-            }
+            HelperDB.closeConn(conn);
         }
     }
 
 
     public SortedSet<Customer> getAllCustomers() {
-        PreparedStatement st = null;
+        Connection conn = null;
         try {
-            st = conn.prepareStatement("SELECT * FROM CUSTOMERS");
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS");
             ResultSet rs = st.executeQuery();
             SortedSet<Customer> allCustomers = new TreeSet<Customer>();
 
@@ -161,13 +160,7 @@ public class CustomerManagerImpl implements CustomerManager {
             logger.log(Level.SEVERE, "Error when getting all CUSTOMERS from DB", ex);
             throw new RuntimeException("Error when getting all CUSTOMERS from DB", ex);
         } finally {
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException ex) {
-                    logger.log(Level.SEVERE, "Error when closing connection", ex);
-                }
-            }
+            HelperDB.closeConn(conn);
         }
     }
 
@@ -176,10 +169,10 @@ public class CustomerManagerImpl implements CustomerManager {
         if (id == 0) {
             throw new IllegalArgumentException("id");
         }
-        PreparedStatement st = null;
-
+        Connection conn = null;
         try {
-            st = conn.prepareStatement("SELECT * FROM CUSTOMERS WHERE id=?");
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS WHERE id=?");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             Customer customer = null;
@@ -197,13 +190,7 @@ public class CustomerManagerImpl implements CustomerManager {
             logger.log(Level.SEVERE, "Error when getting customer by id from DB", ex);
             throw new RuntimeException("Error when getting CUSTOMERS by id from DB", ex);
         } finally {
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException ex) {
-                    logger.log(Level.SEVERE, "Error when closing connection", ex);
-                }
-            }
+            HelperDB.closeConn(conn);
         }
         
     }

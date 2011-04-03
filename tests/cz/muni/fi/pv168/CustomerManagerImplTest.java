@@ -1,5 +1,9 @@
 package cz.muni.fi.pv168;
 
+import java.sql.SQLException;
+import org.apache.commons.dbcp.BasicDataSource;
+import javax.sql.DataSource;
+import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,15 +22,27 @@ import static org.junit.Assert.*;
  * To change this template use File | Settings | File Templates.
  */
 public class CustomerManagerImplTest {
-    private CustomerManager manager;
+    private CustomerManagerImpl manager;
+    private DataSource ds;
+
+    private static DataSource prepareDataSource() throws SQLException {
+        BasicDataSource ds = new BasicDataSource();
+        //we will use in memory database
+        ds.setUrl("jdbc:derby:memory:evidencedbtest;create=true");
+        return ds;
+    }
 
     @Before
-    public void setUp()  {
-        manager = new CustomerManagerImpl("jdbc:derby:memory:evidencedbtest;create=true");
+    public void setUp() throws SQLException, NamingException  {
+        ds = prepareDataSource();
+        HelperDB.createTables(ds);
+        manager = new CustomerManagerImpl();
+        manager.setDs(ds);
     }
 
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
+        HelperDB.dropTables(ds);
     }
 
     @Test
@@ -124,7 +140,7 @@ public class CustomerManagerImplTest {
     @Test
     public void testGetAllCustomer() {
         // new in-memory database with different name
-        manager = new CustomerManagerImpl("jdbc:derby:memory:evidencedbtest2;create=true");
+        // manager = new CustomerManagerImpl("jdbc:derby:memory:evidencedbtest2;create=true");
 
         System.out.println("Count before: " + manager.getAllCustomers().size());
         for (Customer c: manager.getAllCustomers()) {

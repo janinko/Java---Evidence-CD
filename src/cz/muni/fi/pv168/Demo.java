@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168;
 
+import javax.naming.NamingException;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,16 +13,17 @@ package cz.muni.fi.pv168;
  */
 public class Demo {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NamingException {
 
         Customer kuba = new Customer();
         kuba.setName("Kuba Novak");
         kuba.setId(0);
         System.out.println(kuba);
 
-        Customer c = new Customer();
+        //CustomerManager manager = new CustomerManagerImpl("jdbc:derby://localhost:1527/evidencedb");
+        CustomerManager manager = new CustomerManagerImpl("jdbc/evidencedb");
 
-        CustomerManager manager = new CustomerManagerImpl("jdbc:derby://localhost:1527/evidencedb");
+        Customer c = new Customer();
         
         System.out.println("----------");
         for (Customer customer : manager.getAllCustomers()) {
