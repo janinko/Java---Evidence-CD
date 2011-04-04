@@ -70,7 +70,7 @@ public class CDManagerImpl implements CDManager {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement st  = conn.prepareStatement("INSERT INTO cds (title, year) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement st  = conn.prepareStatement("INSERT INTO cds (title, yeardb) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, cd.getTitle());
             st.setInt(2, cd.getYear());
 
@@ -118,7 +118,7 @@ public class CDManagerImpl implements CDManager {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("UPDATE cds SET title=? year=? WHERE id=?");
+            PreparedStatement st = conn.prepareStatement("UPDATE cds SET title=? yeardb='?' WHERE id=?");
             st.setString(1, cd.getTitle());
             st.setInt(2, cd.getYear());
             st.setInt(3, cd.getId());
@@ -147,7 +147,7 @@ public class CDManagerImpl implements CDManager {
                 CD cd = new CD();
                 cd.setId(rs.getInt("id"));
                 cd.setTitle(rs.getString("title"));
-                cd.setYear(rs.getInt("year"));
+                cd.setYear(rs.getInt("yeardb"));
                 allCDs.add(cd);
             }
             return Collections.unmodifiableSortedSet(allCDs);
@@ -174,8 +174,8 @@ public class CDManagerImpl implements CDManager {
             if (rs.next()) {
                 cd = new CD();
                 cd.setId(rs.getInt("id"));
-                cd.setTitle(rs.getString("name"));
-                cd.setYear(rs.getInt("year"));
+                cd.setTitle(rs.getString("title"));
+                cd.setYear(rs.getInt("yeardb"));
                 if (rs.next()) {
                     throw new RuntimeException("cd");
                 }

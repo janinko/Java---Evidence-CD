@@ -5,7 +5,7 @@ package cz.muni.fi.pv168;
  * User: fivekeyem, janinko
  * Date: 3/14/11
  */
-public class CD {
+public class CD implements Comparable<CD>  {
 
     private int id;
     private String title;
@@ -51,5 +51,17 @@ public class CD {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public int compareTo(CD c) {
+        int result = id - c.id;
+        if (result != 0) {
+            return result;
+        }
+        if(title.compareTo(c.getTitle()) != 0){
+            return title.compareTo(c.getTitle());
+        }
+
+        return year - c.getYear();
     }
 }

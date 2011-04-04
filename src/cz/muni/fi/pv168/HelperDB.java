@@ -81,6 +81,9 @@ public class HelperDB {
      * @throws SQLException
      */
     public static void createTables(DataSource ds) throws SQLException {
+        try{
+            dropTables(ds);
+        }catch(SQLException ex){}
         executeSqlScript(ds, "createTables.sql");
     }
 

@@ -58,10 +58,9 @@ public class CDManagerImplTest {
         CD result = manager.getCDById(cdId);
         assertNotNull(result);
 
-        assertEquals(cd, result);
         assertEquals(cd.getTitle(), result.getTitle());
         assertEquals(cd.getYear(), result.getYear());
-        assertEquals(cd.getId(), result.getYear());
+        assertEquals(cd.getId(), result.getId());
 
         // When trying to add null, we should get exception
         try{
