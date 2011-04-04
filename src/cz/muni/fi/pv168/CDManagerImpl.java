@@ -22,34 +22,12 @@ import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
  */
 public class CDManagerImpl implements CDManager {
 
-    public CDManagerImpl() {
-    }
-
-
     private DataSource ds;
     private static final Logger logger = Logger.getLogger(
         CustomerManagerImpl.class.getName());
 
 
-    public CDManagerImpl(String url) throws NamingException {
-        try {
-            ds = prepareDataSource();
-
-
-            Connection conn = ds.getConnection();
-
-            // TODO, do not use literals like "cds"
-            ResultSet checkTable = conn.getMetaData().getTables(null, null, "cds", null);
-            // when tables is not existing
-            // todo
-            if (!checkTable.next()) {
-                Statement st = conn.createStatement();
-                HelperDB.createTables(ds);
-            }
-
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error when connecting to DB", ex);
-        }
+    public CDManagerImpl() {
     }
 
     public void setDs(DataSource ds) {
@@ -118,7 +96,7 @@ public class CDManagerImpl implements CDManager {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("UPDATE cds SET title=? yeardb='?' WHERE id=?");
+            PreparedStatement st = conn.prepareStatement("UPDATE CDS SET title=?, yeardb=? WHERE id=?");
             st.setString(1, cd.getTitle());
             st.setInt(2, cd.getYear());
             st.setInt(3, cd.getId());
@@ -189,14 +167,5 @@ public class CDManagerImpl implements CDManager {
             HelperDB.closeConn(conn);
         }
 
-    }
-
-        private static DataSource prepareDataSource() throws SQLException {
-
-        ClientConnectionPoolDataSource ds = new ClientConnectionPoolDataSource();
-        ds.setServerName("localhost");
-        ds.setPortNumber(1527);
-        ds.setDatabaseName("evidencedb");
-        return ds;
     }
 }

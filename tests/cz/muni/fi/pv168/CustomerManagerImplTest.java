@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168;
 
 import java.sql.SQLException;
-import org.apache.commons.dbcp.BasicDataSource;
 import javax.sql.DataSource;
 import javax.naming.NamingException;
 import org.junit.After;
@@ -22,16 +21,9 @@ public class CustomerManagerImplTest {
     private CustomerManagerImpl manager;
     private DataSource ds;
 
-    private static DataSource prepareDataSource() throws SQLException {
-        BasicDataSource ds = new BasicDataSource();
-        //we will use in memory database
-        ds.setUrl("jdbc:derby:memory:evidencedb;create=true");
-        return ds;
-    }
-
     @Before
     public void setUp() throws SQLException, NamingException  {
-        ds = prepareDataSource();
+        ds = HelperDB.prepareDataSourceTest();
         HelperDB.createTables(ds);
         manager = new CustomerManagerImpl();
         manager.setDs(ds);

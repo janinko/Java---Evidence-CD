@@ -64,4 +64,12 @@ public class CD implements Comparable<CD>  {
 
         return year - c.getYear();
     }
+
+    @Override
+    public String toString() {
+        return id + ", " + title + "(" + year + ")";
+    }
+
+
+    
 }

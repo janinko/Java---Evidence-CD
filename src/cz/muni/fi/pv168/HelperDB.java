@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 
 /**
  *
@@ -115,6 +116,15 @@ public class HelperDB {
         } finally {
             closeConn(conn);
         }
+    }
+
+
+
+    public static DataSource prepareDataSourceTest() throws SQLException {
+        BasicDataSource ds = new BasicDataSource();
+        //we will use in memory database
+        ds.setUrl("jdbc:derby:memory:evidencedbtest;create=true");
+        return ds;
     }
 
 }

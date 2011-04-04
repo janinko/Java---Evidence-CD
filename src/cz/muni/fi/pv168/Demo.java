@@ -19,14 +19,47 @@ public class Demo {
 
     public static void main(String[] args) throws NamingException, SQLException {
         DataSource ds;
-        CustomerManagerImpl manager;
+        CDManagerImpl manager;
 
         Customer kuba = new Customer();
         kuba.setName("Kuba Novak");
         kuba.setId(0);
         System.out.println(kuba);
 
+        CD nove = new CD();
+        nove.setTitle("nove cd");
+        nove.setYear(2003);
+
+        
+        
+
+        
         ds = prepareDataSource();
+        manager = new CDManagerImpl();
+        manager.setDs(ds);
+
+        CD c = new CD();
+
+
+        System.out.println("----------");
+        for (CD cd : manager.getAllCD()) {
+            System.out.println(cd);
+            c = cd;
+        }
+        System.out.println("----------");
+
+        c.setTitle("upravene 2");
+
+        manager.updateCD(c);
+
+        for (CD cd : manager.getAllCD()) {
+            System.out.println(cd);
+            c = cd;
+        }
+        System.out.println("----------");
+
+
+        /*
         manager = new CustomerManagerImpl();
         manager.setDs(ds);
 
@@ -54,7 +87,24 @@ public class Demo {
         System.out.println("----------");
 
         System.out.println(manager.getCustomerById(89));
-        
+        */
+
+
+
+        /*
+         * checking existing table
+         *
+            Connection conn = ds.getConnection();
+
+            // TODO, do not use literals like "cds"
+            ResultSet checkTable = conn.getMetaData().getTables(null, null, "cds", null);
+            // when tables is not existing
+            // todo
+            if (!checkTable.next()) {
+                Statement st = conn.createStatement();
+                HelperDB.createTables(ds);
+            }
+         */
     }
 
 

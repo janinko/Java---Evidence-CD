@@ -90,7 +90,6 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
     
-
     public Customer updateCustomer(Customer customer) {
         if (customer == null) {
             throw new NullPointerException("customer");
