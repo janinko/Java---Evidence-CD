@@ -1,5 +1,6 @@
 package cz.muni.fi.pv168;
 
+import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +22,8 @@ public class CDManagerImplTest {
     CDManager manager;
 
     @Before
-    public void setUp()  {
-        manager = new CDManagerImpl();
+    public void setUp() throws NamingException  {
+        manager = new CDManagerImpl("jdbc:derby:memory:evidencedbtest;create=true");
     }
 
     @After
