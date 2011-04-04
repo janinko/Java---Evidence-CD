@@ -22,6 +22,9 @@ import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
  */
 public class CDManagerImpl implements CDManager {
 
+    public CDManagerImpl() {
+    }
+
 
     private DataSource ds;
     private static final Logger logger = Logger.getLogger(
@@ -33,7 +36,7 @@ public class CDManagerImpl implements CDManager {
             ds = prepareDataSource();
 
 
-            Connection conn = ds.getConnection("evname", "evpass");
+            Connection conn = ds.getConnection();
 
             // TODO, do not use literals like "cds"
             ResultSet checkTable = conn.getMetaData().getTables(null, null, "cds", null);
@@ -66,7 +69,7 @@ public class CDManagerImpl implements CDManager {
 
         Connection conn = null;
         try {
-            conn = ds.getConnection("evname", "evpass");
+            conn = ds.getConnection();
             PreparedStatement st  = conn.prepareStatement("INSERT INTO cds (title, year) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, cd.getTitle());
             st.setInt(2, cd.getYear());
@@ -80,7 +83,7 @@ public class CDManagerImpl implements CDManager {
             return cd;
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when inserting CD into DB", ex);
-            throw new RuntimeException("Error when inserting into DB", ex);
+            throw new RuntimeException("Error when inserting CD into DB", ex);
         } finally {
             HelperDB.closeConn(conn);
         }
@@ -93,7 +96,7 @@ public class CDManagerImpl implements CDManager {
         }
         Connection conn = null;
         try {
-            conn = ds.getConnection("evname", "evpass");
+            conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("DELETE FROM cds WHERE id=?");
             st.setInt(1, cd.getId());
             if (st.executeUpdate() == 0) {
@@ -135,7 +138,7 @@ public class CDManagerImpl implements CDManager {
 
         Connection conn = null;
         try {
-            conn = ds.getConnection("evname", "evpass");
+            conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT * FROM cds");
             ResultSet rs = st.executeQuery();
             SortedSet<CD> allCDs = new TreeSet<CD>();
@@ -163,7 +166,7 @@ public class CDManagerImpl implements CDManager {
         }
         Connection conn = null;
         try {
-            conn = ds.getConnection("evname", "evpass");
+            conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT * FROM cds WHERE id=?");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();

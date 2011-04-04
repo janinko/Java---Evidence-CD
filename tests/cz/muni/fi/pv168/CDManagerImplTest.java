@@ -1,5 +1,8 @@
 package cz.muni.fi.pv168;
 
+import java.sql.SQLException;
+import org.apache.commons.dbcp.BasicDataSource;
+import javax.sql.DataSource;
 import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.Before;
@@ -20,10 +23,21 @@ import static org.junit.Assert.*;
  */
 public class CDManagerImplTest {
     CDManager manager;
+    private DataSource ds;
+
+    private static DataSource prepareDataSource() throws SQLException {
+        BasicDataSource ds = new BasicDataSource();
+        //we will use in memory database
+        ds.setUrl("jdbc:derby:memory:evidencedbtest;create=true");
+        return ds;
+    }
 
     @Before
-    public void setUp() throws NamingException  {
-        manager = new CDManagerImpl("jdbc:derby:memory:evidencedbtest;create=true");
+    public void setUp() throws NamingException, SQLException  {
+        ds = prepareDataSource();
+        HelperDB.createTables(ds);
+        manager = new CDManagerImpl();
+        manager.setDs(ds);
     }
 
     @After

@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168;
 
 import java.util.SortedSet;
+import javax.sql.DataSource;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,4 +19,6 @@ public interface CDManager {
     SortedSet<CD> getAllCD();
 
     CD getCDById(int id);
+
+    void setDs(DataSource ds);
 }
