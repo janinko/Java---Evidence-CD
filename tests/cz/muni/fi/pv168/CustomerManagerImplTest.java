@@ -7,10 +7,8 @@ import javax.naming.NamingException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.HashSet;
 import java.util.Set;
-
 import static org.junit.Assert.*;
 
 
@@ -19,7 +17,6 @@ import static org.junit.Assert.*;
  * User: janinko, fivekeyem
  * Date: 15.3.11
  * Time: 10:04
- * To change this template use File | Settings | File Templates.
  */
 public class CustomerManagerImplTest {
     private CustomerManagerImpl manager;
@@ -28,7 +25,7 @@ public class CustomerManagerImplTest {
     private static DataSource prepareDataSource() throws SQLException {
         BasicDataSource ds = new BasicDataSource();
         //we will use in memory database
-        ds.setUrl("jdbc:derby:memory:evidencedbtest;create=true");
+        ds.setUrl("jdbc:derby:memory:evidencedb;create=true");
         return ds;
     }
 
@@ -81,6 +78,7 @@ public class CustomerManagerImplTest {
             fail();
         }
     }
+    
 
     @Test
     public void testDeleteCustomer() {
@@ -108,6 +106,7 @@ public class CustomerManagerImplTest {
             fail();
         }
     }
+
 
     @Test
     public void testUpdateCustomer() {
@@ -139,8 +138,6 @@ public class CustomerManagerImplTest {
 
     @Test
     public void testGetAllCustomer() {
-        // new in-memory database with different name
-        // manager = new CustomerManagerImpl("jdbc:derby:memory:evidencedbtest2;create=true");
 
         System.out.println("Count before: " + manager.getAllCustomers().size());
         for (Customer c: manager.getAllCustomers()) {

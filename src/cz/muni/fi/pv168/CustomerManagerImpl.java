@@ -10,10 +10,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
-import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
-
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,42 +26,10 @@ public class CustomerManagerImpl implements CustomerManager {
 
     public CustomerManagerImpl() {
     }
-    
+
+
     public void setDs(DataSource ds) {
         this.ds = ds;
-    }
-
-
-    private static DataSource prepareDataSource() throws SQLException {
-
-        ClientConnectionPoolDataSource ds = new ClientConnectionPoolDataSource();
-        ds.setServerName("localhost");
-        ds.setPortNumber(1527);
-        ds.setDatabaseName("evidencedb");
-        return ds;
-    }
-
-    public CustomerManagerImpl(String url) throws NamingException {
-        try {
-            ds = prepareDataSource();
-            
-
-            Connection conn = ds.getConnection();
-            
-            // TODO, do not use literals like "CUSTOMERS"
-            ResultSet checkTable = conn.getMetaData().getTables(null, null, "CUSTOMERS", null);
-            // when tables is not existing
-            // todo
-            if (!checkTable.next()) {
-                Statement st = conn.createStatement();
-                HelperDB.createTables(ds);
-            }
-
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error when connecting to DB", ex);
-        }
-
-        
     }
 
     
@@ -203,4 +168,5 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         
     }
+
 }

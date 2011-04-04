@@ -1,6 +1,9 @@
 package cz.muni.fi.pv168;
 
+import java.sql.SQLException;
 import javax.naming.NamingException;
+import javax.sql.DataSource;
+import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
 
 
 /**
@@ -13,15 +16,19 @@ import javax.naming.NamingException;
  */
 public class Demo {
 
-    public static void main(String[] args) throws NamingException {
+
+    public static void main(String[] args) throws NamingException, SQLException {
+        DataSource ds;
+        CustomerManagerImpl manager;
 
         Customer kuba = new Customer();
         kuba.setName("Kuba Novak");
         kuba.setId(0);
         System.out.println(kuba);
 
-        //CustomerManager manager = new CustomerManagerImpl("jdbc:derby://localhost:1527/evidencedb");
-        CustomerManager manager = new CustomerManagerImpl("docasny argument");
+        ds = prepareDataSource();
+        manager = new CustomerManagerImpl();
+        manager.setDs(ds);
 
         Customer c = new Customer();
         
@@ -48,5 +55,16 @@ public class Demo {
 
         System.out.println(manager.getCustomerById(89));
         
+    }
+
+
+    private static DataSource prepareDataSource() throws SQLException {
+        ClientConnectionPoolDataSource ds = new ClientConnectionPoolDataSource();
+        ds.setServerName("localhost");
+        ds.setPortNumber(1527);
+        ds.setDatabaseName("evidencedb");
+        ds.setUser("evname");
+        ds.setPassword("evpass");
+        return ds;
     }
 }
