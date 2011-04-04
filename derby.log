@@ -1,8 +1,0 @@
-----------------------------------------------------------------
-Sun Apr 03 20:52:30 CEST 2011:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.7.1.1 - (1040133): instance a816c00e-012f-1cb5-8a2c-0000018e1580 
-on database directory memory:/home/fivekeyem/data/school-mu/mu-predmety/2st-sem/pv168_seminář-z-programování-v-jazyce-Java/projekt_evidence/main-evidence/Java---Evidence-CD/grave-test  with class loader sun.misc.Launcher$AppClassLoader@cac268 
-Loaded from file:/home/fivekeyem/data/school-mu/mu-predmety/2st-sem/pv168_semin%c3%a1%c5%99-z-programov%c3%a1n%c3%ad-v-jazyce-Java/projekt_evidence/main-evidence/Java---Evidence-CD/lib/derby.jar
-java.vendor=Sun Microsystems Inc.
-java.runtime.version=1.6.0_24-b07
-Database Class Loader started - derby.database.classpath=''
