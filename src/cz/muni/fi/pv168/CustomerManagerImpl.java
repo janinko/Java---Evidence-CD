@@ -49,7 +49,7 @@ public class CustomerManagerImpl implements CustomerManager {
             ds = prepareDataSource();
             
 
-            Connection conn = ds.getConnection("evname", "evpass");
+            Connection conn = ds.getConnection();
             
             // TODO, do not use literals like "CUSTOMERS"
             ResultSet checkTable = conn.getMetaData().getTables(null, null, "CUSTOMERS", null);
@@ -81,7 +81,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
         Connection conn = null;
         try {
-            conn = ds.getConnection("evname", "evpass");
+            conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("INSERT INTO CUSTOMERS (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, customer.getName());
 
@@ -108,7 +108,7 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         Connection conn = null;
         try {
-            conn = ds.getConnection("evname", "evpass");
+            conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("DELETE FROM CUSTOMERS WHERE id=?");
             st.setInt(1, customer.getId());
             if (st.executeUpdate() == 0) {
@@ -152,7 +152,7 @@ public class CustomerManagerImpl implements CustomerManager {
     public SortedSet<Customer> getAllCustomers() {
         Connection conn = null;
         try {
-            conn = ds.getConnection("evname", "evpass");
+            conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS");
             ResultSet rs = st.executeQuery();
             SortedSet<Customer> allCustomers = new TreeSet<Customer>();
@@ -180,7 +180,7 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         Connection conn = null;
         try {
-            conn = ds.getConnection("evname", "evpass");
+            conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS WHERE id=?");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
