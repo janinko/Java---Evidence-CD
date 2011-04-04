@@ -21,7 +21,7 @@ public class Demo {
         System.out.println(kuba);
 
         //CustomerManager manager = new CustomerManagerImpl("jdbc:derby://localhost:1527/evidencedb");
-        CustomerManager manager = new CustomerManagerImpl("jdbc/evidencedb");
+        CustomerManager manager = new CustomerManagerImpl("docasny argument");
 
         Customer c = new Customer();
         

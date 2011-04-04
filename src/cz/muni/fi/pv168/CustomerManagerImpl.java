@@ -10,10 +10,10 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,10 +35,19 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
 
+    private static DataSource prepareDataSource() throws SQLException {
+
+        ClientConnectionPoolDataSource ds = new ClientConnectionPoolDataSource();
+        ds.setServerName("localhost");
+        ds.setPortNumber(1527);
+        ds.setDatabaseName("evidencedb");
+        return ds;
+    }
+
     public CustomerManagerImpl(String url) throws NamingException {
         try {
-            Context ctx = (Context) new InitialContext().lookup("java:comp/env");
-            ds = (DataSource) ctx.lookup(url);
+            ds = prepareDataSource();
+            
 
             Connection conn = ds.getConnection("evname", "evpass");
             
@@ -72,7 +81,7 @@ public class CustomerManagerImpl implements CustomerManager {
 
         Connection conn = null;
         try {
-            conn = ds.getConnection();
+            conn = ds.getConnection("evname", "evpass");
             PreparedStatement st = conn.prepareStatement("INSERT INTO CUSTOMERS (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
             st.setString(1, customer.getName());
 
@@ -99,7 +108,7 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         Connection conn = null;
         try {
-            conn = ds.getConnection();
+            conn = ds.getConnection("evname", "evpass");
             PreparedStatement st = conn.prepareStatement("DELETE FROM CUSTOMERS WHERE id=?");
             st.setInt(1, customer.getId());
             if (st.executeUpdate() == 0) {
@@ -143,7 +152,7 @@ public class CustomerManagerImpl implements CustomerManager {
     public SortedSet<Customer> getAllCustomers() {
         Connection conn = null;
         try {
-            conn = ds.getConnection();
+            conn = ds.getConnection("evname", "evpass");
             PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS");
             ResultSet rs = st.executeQuery();
             SortedSet<Customer> allCustomers = new TreeSet<Customer>();
@@ -171,7 +180,7 @@ public class CustomerManagerImpl implements CustomerManager {
         }
         Connection conn = null;
         try {
-            conn = ds.getConnection();
+            conn = ds.getConnection("evname", "evpass");
             PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS WHERE id=?");
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
