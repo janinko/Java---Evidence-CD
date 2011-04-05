@@ -84,5 +84,18 @@ public class CD implements Comparable<CD>  {
                this.getTitle().equals(oo.getTitle()) &&
                this.getYear() == oo.getYear();
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 19 * hash + this.id;
+        hash = 19 * hash + title.hashCode();
+        hash = 19 * hash + this.year;
+        return hash;
+    }
+
+
+
+
     
 }
