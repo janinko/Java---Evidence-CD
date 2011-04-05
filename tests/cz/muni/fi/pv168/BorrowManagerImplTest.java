@@ -145,12 +145,12 @@ public class BorrowManagerImplTest {
     public void testUpdateBorrow() {
         Borrow borrow = createSampleBorrow();
         manager.createBorrow(borrow);
-        Borrow managerBorrow = manager.getBorrowById(borrow.getId());
-
+        int borrowId = borrow.getId();
         // borrows should be the same
-        borrow.setCd(new CD(2, "The Test Album 2", 2011));
+        borrow.setCd(new CD(borrowId, "The Test Album 2", 2011));
         borrow.setActive(false);
         manager.updateBorrow(borrow);
+        Borrow managerBorrow = manager.getBorrowById(borrowId);
         assertEquals(borrow, managerBorrow);
 
         // attributes should be the same
