@@ -8,3 +8,12 @@ CREATE TABLE cds (
     title VARCHAR(30),
     yeardb INTEGER
 );
+
+CREATE TABLE borrows (
+    id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+    cdid INTEGER,
+    customerid INTEGER,
+    fromdb TIMESTAMP,
+    todb TIMESTAMP,
+    active INTEGER
+);
