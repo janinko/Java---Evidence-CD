@@ -107,7 +107,24 @@ public class BorrowManagerImpl implements BorrowManager {
     }
 
     public Borrow deleteBorrow(Borrow borrow) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (borrow == null) {
+            throw new NullPointerException("customer");
+        }
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("DELETE FROM borrows WHERE id=?");
+            st.setInt(1, borrow.getId());
+            if (st.executeUpdate() == 0) {
+                throw new IllegalArgumentException("borrow not found");
+            }
+            return borrow;
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error when deleting borrow from DB", ex);
+            throw new RuntimeException("Error when deleting borrow from DB", ex);
+        } finally {
+            HelperDB.closeConn(conn);
+        }
     }
 
     public Borrow updateBorrow(Borrow borrow) {
