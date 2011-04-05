@@ -28,6 +28,9 @@ public class BorrowManagerImpl implements BorrowManager {
     CDManager cdManager;
     CustomerManager customerManager;
 
+    public BorrowManagerImpl() {
+    }
+
 
     public BorrowManagerImpl(CDManager cdManager, CustomerManager customerManager) {
         this.cdManager = cdManager;
