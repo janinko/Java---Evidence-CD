@@ -50,13 +50,13 @@ public class BorrowManagerImpl implements BorrowManager {
             throw new NullPointerException("CD isn't set");
         }
         if (borrow.getCd().getId() == 0) {
-            throw new NullPointerException("CD id isn't set");
+            throw new IllegalArgumentException("CD id isn't set");
         }
         if (borrow.getCustomer() == null) {
             throw new NullPointerException("customer isn't set");
         }
         if (borrow.getCustomer().getId() == 0) {
-            throw new NullPointerException("customer id isn't set");
+            throw new IllegalArgumentException("customer id isn't set");
         }
      /*   if (borrow.getFrom() == null) {                              // TODO
             throw new NullPointerException("From date isn't set");

@@ -45,7 +45,6 @@ public class BorrowManagerImplTest {
         Borrow borrow = createSampleBorrow();
 
         // should be the same
-        borrow.setId(0);
         manager.createBorrow(borrow);
         int borrowId = borrow.getId();
 
@@ -56,7 +55,6 @@ public class BorrowManagerImplTest {
 
         // should be the same
         borrow = createSampleBorrow2();
-        borrow.setId(0);
         manager.createBorrow(borrow);
         borrowId = borrow.getId();
 
@@ -80,7 +78,7 @@ public class BorrowManagerImplTest {
             borrow.setCd(null);
             manager.createBorrow(borrow);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (NullPointerException ex) {}
         catch (Exception ex) {
             fail();
         }
@@ -91,7 +89,7 @@ public class BorrowManagerImplTest {
             borrow.setCustomer(null);
             manager.createBorrow(borrow);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (NullPointerException ex) {}
         catch (Exception ex) {
             fail();
         }
@@ -177,7 +175,7 @@ public class BorrowManagerImplTest {
     private Borrow createSampleBorrow() {
         Borrow borrow = new Borrow();
 
-        borrow.setId(1);
+        borrow.setId(0);
         CD cd = new CD(0, "The Test Album", 2011);
         cd = cdManager.createCD(cd);
         borrow.setCd(cd);
@@ -197,7 +195,7 @@ public class BorrowManagerImplTest {
     private Borrow createSampleBorrow2() {
         Borrow borrow = new Borrow();
 
-        borrow.setId(2);
+        borrow.setId(0);
         CD cd = new CD(0, "The Test Album 2", 2011);
         cd = cdManager.createCD(cd);
         borrow.setCd(cd);
