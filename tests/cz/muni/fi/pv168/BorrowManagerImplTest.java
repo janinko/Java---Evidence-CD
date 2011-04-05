@@ -151,6 +151,8 @@ public class BorrowManagerImplTest {
         borrow.setActive(false);
         manager.updateBorrow(borrow);
         Borrow managerBorrow = manager.getBorrowById(borrowId);
+        System.out.println(borrow);
+        System.out.println(managerBorrow);
         assertEquals(borrow, managerBorrow);
 
         // attributes should be the same
@@ -174,19 +176,22 @@ public class BorrowManagerImplTest {
 
     private Borrow createSampleBorrow() {
         Borrow borrow = new Borrow();
-
         borrow.setId(0);
+
         CD cd = new CD(0, "The Test Album", 2011);
         cd = cdManager.createCD(cd);
         borrow.setCd(cd);
+
         Customer customer = new Customer(0, "Test User");
         customer = customerManager.createCustomer(customer);
         borrow.setCustomer(customer);
+        
        // Calendar from = new GregorianCalendar(2011, 3, 5, 12, 30, 7) ;    TODO
        // Calendar to = new GregorianCalendar(2011, 4, 4, 16, 19, 3) ;
        // borrow.setFrom(from);
        // borrow.setTo(to);
-        borrow.setActive(false);
+        
+        borrow.setActive(true);
 
         return borrow;
     }

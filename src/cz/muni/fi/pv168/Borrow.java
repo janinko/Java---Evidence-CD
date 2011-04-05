@@ -1,6 +1,5 @@
 package cz.muni.fi.pv168;
 
-import java.util.Calendar;
 
 /**
  * Created by IntelliJ IDEA.
@@ -114,4 +113,10 @@ public class Borrow {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        return id + " (" + cd + "), (" + customer + "), " + active + ")";
+    }
+    
 }
