@@ -13,7 +13,5 @@ CREATE TABLE borrows (
     id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     cdid INTEGER,
     customerid INTEGER,
-    fromdb TIMESTAMP,
-    todb TIMESTAMP,
     active INTEGER
 );
