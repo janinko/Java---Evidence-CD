@@ -102,13 +102,13 @@ public class Borrow {
 
         if(this.getId() != oo.getId())
             return false;
-        if(this.getCustomer() != oo.getCustomer())
+        if(!this.getCustomer().equals(oo.getCustomer()))
             return false;
-        if(this.getCd().equals(oo.getCd()))
+        if(!(this.getCd().equals(oo.getCd())))
             return false;
-        if(this.getFrom() != oo.getFrom())
+        if(!(this.getFrom().equals(oo.getFrom())))
             return false;
-        if(this.getFrom() != oo.getFrom())
+        if(!(this.getFrom().equals(oo.getFrom())))
             return false;
 
         return true;
