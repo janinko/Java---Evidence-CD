@@ -50,19 +50,18 @@ public class BorrowManagerImplTest {
         int borrowId = borrow.getId();
 
         Borrow managerBorrow = manager.getBorrowById(borrowId);
-
-        System.out.println(borrow.getActive() + " " + managerBorrow.getActive());
-        System.out.println(borrow.getCd() + " " + managerBorrow.getCd());
-        System.out.println(borrow.getCustomer() + " " + managerBorrow.getCustomer());
-        System.out.println(borrow.getId() + " " + managerBorrow.getId());
         
         assertTrue(borrow.equals(managerBorrow));
         
 
         // should be the same
         borrow = createSampleBorrow2();
+        borrow.setId(0);
         manager.createBorrow(borrow);
-        managerBorrow = manager.getBorrowById(borrow.getId());
+        borrowId = borrow.getId();
+
+        managerBorrow = manager.getBorrowById(borrowId);
+        
         assertEquals(borrow, managerBorrow);
 
 
@@ -180,10 +179,10 @@ public class BorrowManagerImplTest {
 
         borrow.setId(1);
         CD cd = new CD(0, "The Test Album", 2011);
-        cdManager.createCD(cd);
+        cd = cdManager.createCD(cd);
         borrow.setCd(cd);
         Customer customer = new Customer(0, "Test User");
-        customerManager.createCustomer(customer);
+        customer = customerManager.createCustomer(customer);
         borrow.setCustomer(customer);
        // Calendar from = new GregorianCalendar(2011, 3, 5, 12, 30, 7) ;    TODO
        // Calendar to = new GregorianCalendar(2011, 4, 4, 16, 19, 3) ;
@@ -200,10 +199,10 @@ public class BorrowManagerImplTest {
 
         borrow.setId(2);
         CD cd = new CD(0, "The Test Album 2", 2011);
-        cdManager.createCD(cd);
+        cd = cdManager.createCD(cd);
         borrow.setCd(cd);
         Customer customer = new Customer(0, "Test User 2");
-        customerManager.createCustomer(customer);
+        customer = customerManager.createCustomer(customer);
         borrow.setCustomer(customer);
         //Calendar from = new GregorianCalendar(2011, 4, 7, 12, 30, 7) ; TODO
         //Calendar to = new GregorianCalendar(2011, 5, 6, 18, 0, 0) ;

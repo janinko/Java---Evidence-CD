@@ -7,6 +7,7 @@ package cz.muni.fi.pv168;
  */
 public class CD implements Comparable<CD>  {
 
+
     private int id;
     private String title;
     private int year;
@@ -71,5 +72,17 @@ public class CD implements Comparable<CD>  {
     }
 
 
+
+    @Override
+    public boolean equals(Object o) {
+        if(! (o instanceof CD))
+            return false;
+
+        CD oo = (CD) o;
+
+        return this.getId() == oo.getId() &&
+               this.getTitle().equals(oo.getTitle()) &&
+               this.getYear() == oo.getYear();
+    }
     
 }

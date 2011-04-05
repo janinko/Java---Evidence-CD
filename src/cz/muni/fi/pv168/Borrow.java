@@ -100,13 +100,18 @@ public class Borrow {
 
         Borrow oo = (Borrow) o;
 
-        if(this.getId() != oo.getId())
+        if(this.getId() != oo.getId()){
             return false;
-     //   if(!(this.getFrom().equals(oo.getFrom())))
-     //       return false;
-     //   if(!(this.getFrom().equals(oo.getFrom())))
-     //       return false;
+        }
+        if(!(this.getCd().equals(oo.getCd()))){
+            System.out.println("!cd");
+            return false;
+        }
+        if(!(this.getCustomer().equals(oo.getCustomer()))){
+            System.out.println("!customer");
+            return false;
+        }
 
-        return this.getCd().equals(oo.getCd()) && this.getCustomer().equals(oo.getCustomer());
+        return true;
     }
 }
