@@ -115,6 +115,18 @@ public class Borrow {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + this.id;
+        hash = 79 * hash + (this.cd != null ? this.cd.hashCode() : 0);
+        hash = 79 * hash + (this.customer != null ? this.customer.hashCode() : 0);
+        hash = 79 * hash + (this.active ? 1 : 0);
+        return hash;
+    }
+
+
+
+    @Override
     public String toString() {
         return id + " (" + cd + "), (" + customer + "), " + active + ")";
     }
