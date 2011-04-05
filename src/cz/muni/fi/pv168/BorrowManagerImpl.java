@@ -128,7 +128,27 @@ public class BorrowManagerImpl implements BorrowManager {
     }
 
     public Borrow updateBorrow(Borrow borrow) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if (borrow == null) {
+            throw new NullPointerException("borrow");
+        }
+        Connection conn = null;
+        try {
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("UPDATE borrows SET cdid=?, customerid=?, active=? WHERE id=?");
+            st.setInt(1, borrow.getCd().getId());
+            st.setInt(2, borrow.getCustomer().getId());
+            st.setInt(3, (borrow.getActive()?1:0));
+            st.setInt(4, borrow.getId());
+            if (st.executeUpdate() == 0) {
+                throw new IllegalArgumentException("borrow not found");
+            }
+            return borrow;
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error when updating borrow in DB", ex);
+            throw new RuntimeException("Error when updating borrow in DB", ex);
+        } finally {
+            HelperDB.closeConn(conn);
+        }
     }
 
     public SortedSet<Borrow> getAllBorrows() {
