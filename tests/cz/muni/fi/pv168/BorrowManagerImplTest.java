@@ -1,5 +1,11 @@
 package cz.muni.fi.pv168;
 
+import org.junit.After;
+import javax.sql.DataSource;
+import javax.naming.NamingException;
+import java.sql.SQLException;
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -13,10 +19,25 @@ import static org.junit.Assert.*;
 public class BorrowManagerImplTest {
 
     private BorrowManager manager;
+    private CDManager cdManager;
+    private CustomerManager customerManager;
+    private DataSource ds;
 
     @Before
-    public void setUp() {
-        manager = new BorrowManagerImpl();
+    public void setUp() throws SQLException, NamingException  {
+        ds = HelperDB.prepareDataSourceTest();
+        HelperDB.createTables(ds);
+        cdManager = new CDManagerImpl();
+        cdManager.setDs(ds);
+        customerManager = new CustomerManagerImpl();
+        customerManager.setDs(ds);
+        manager = new BorrowManagerImpl(cdManager,customerManager);
+        manager.setDs(ds);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        HelperDB.dropTables(ds);
     }
 
     @Test
@@ -25,14 +46,20 @@ public class BorrowManagerImplTest {
 
         // should be the same
         manager.createBorrow(borrow);
-        Borrow managerBorrow = manager.getBorrowById(borrow.getId());
-        assertEquals(borrow, managerBorrow);
+        int borrowId = borrow.getId();
 
+        Borrow managerBorrow = manager.getBorrowById(borrowId);
+        
+        assertTrue(borrow.equals(managerBorrow));
+        
 
         // should be the same
         borrow = createSampleBorrow2();
         manager.createBorrow(borrow);
-        managerBorrow = manager.getBorrowById(borrow.getId());
+        borrowId = borrow.getId();
+
+        managerBorrow = manager.getBorrowById(borrowId);
+        
         assertEquals(borrow, managerBorrow);
 
 
@@ -51,7 +78,7 @@ public class BorrowManagerImplTest {
             borrow.setCd(null);
             manager.createBorrow(borrow);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (NullPointerException ex) {}
         catch (Exception ex) {
             fail();
         }
@@ -62,7 +89,7 @@ public class BorrowManagerImplTest {
             borrow.setCustomer(null);
             manager.createBorrow(borrow);
             fail();
-        } catch (IllegalArgumentException ex) {}
+        } catch (NullPointerException ex) {}
         catch (Exception ex) {
             fail();
         }
@@ -118,18 +145,18 @@ public class BorrowManagerImplTest {
     public void testUpdateBorrow() {
         Borrow borrow = createSampleBorrow();
         manager.createBorrow(borrow);
-        Borrow managerBorrow = manager.getBorrowById(borrow.getId());
-
+        int borrowId = borrow.getId();
         // borrows should be the same
-        borrow.setCd(new CD(2, "The Test Album 2", 2011));
+        borrow.setCd(new CD(borrowId, "The Test Album 2", 2011));
         borrow.setActive(false);
         manager.updateBorrow(borrow);
+        Borrow managerBorrow = manager.getBorrowById(borrowId);
         assertEquals(borrow, managerBorrow);
 
         // attributes should be the same
         assertEquals(borrow.getCd(), managerBorrow.getCd());
         assertEquals(borrow.getCustomer(), managerBorrow.getCustomer());
-        assertTrue(borrow.isActive() == managerBorrow.isActive());
+        assertTrue(borrow.getActive() == managerBorrow.getActive());
 
 
     }
@@ -148,10 +175,18 @@ public class BorrowManagerImplTest {
     private Borrow createSampleBorrow() {
         Borrow borrow = new Borrow();
 
-        borrow.setId(1);
-        borrow.setCd(new CD(1, "The Test Album", 2011));
-        borrow.setCustomer(new Customer(1, "Test User"));
-        borrow.setActive(true);
+        borrow.setId(0);
+        CD cd = new CD(0, "The Test Album", 2011);
+        cd = cdManager.createCD(cd);
+        borrow.setCd(cd);
+        Customer customer = new Customer(0, "Test User");
+        customer = customerManager.createCustomer(customer);
+        borrow.setCustomer(customer);
+       // Calendar from = new GregorianCalendar(2011, 3, 5, 12, 30, 7) ;    TODO
+       // Calendar to = new GregorianCalendar(2011, 4, 4, 16, 19, 3) ;
+       // borrow.setFrom(from);
+       // borrow.setTo(to);
+        borrow.setActive(false);
 
         return borrow;
     }
@@ -160,10 +195,18 @@ public class BorrowManagerImplTest {
     private Borrow createSampleBorrow2() {
         Borrow borrow = new Borrow();
 
-        borrow.setId(2);
-        borrow.setCd(new CD(2, "The Test Album 2", 2011));
-        borrow.setCustomer(new Customer(2, "Test User 2"));
-        borrow.setActive(false);
+        borrow.setId(0);
+        CD cd = new CD(0, "The Test Album 2", 2011);
+        cd = cdManager.createCD(cd);
+        borrow.setCd(cd);
+        Customer customer = new Customer(0, "Test User 2");
+        customer = customerManager.createCustomer(customer);
+        borrow.setCustomer(customer);
+        //Calendar from = new GregorianCalendar(2011, 4, 7, 12, 30, 7) ; TODO
+        //Calendar to = new GregorianCalendar(2011, 5, 6, 18, 0, 0) ;
+        //borrow.setFrom(from);
+        //borrow.setTo(to);
+        borrow.setActive(true);
 
         return borrow;
     }

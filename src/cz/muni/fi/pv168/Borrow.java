@@ -13,8 +13,8 @@ public class Borrow {
     private CD cd;
     private Customer customer;
     private boolean active;
-    private Calendar from;
-    private Calendar to;
+   // private Calendar from;
+  //  private Calendar to;
 
 
     public Borrow() {
@@ -22,8 +22,8 @@ public class Borrow {
         this.cd = null;
         this.customer = null;
         this.active = false;
-        this.from = null;
-        this.to = null;
+      //  this.from = null;
+      //  this.to = null;
     }
 
     public Borrow(int id) {
@@ -31,17 +31,17 @@ public class Borrow {
         this.cd = null;
         this.customer = null;
         this.active = false;
-        this.from = null;
-        this.to = null;
+       // this.from = null;
+      //  this.to = null;
     }
 
-    public Borrow(int id, CD cd, Customer customer, boolean active, Calendar from, Calendar to) {
+    public Borrow(int id, CD cd, Customer customer, boolean active) {
         this.id = id;
         this.cd = cd;
         this.customer = customer;
         this.active = active;
-        this.from = from;
-        this.to = to;
+      //  this.from = from;
+      //  this.to = to;
     }
 
     public int getId() {
@@ -68,7 +68,7 @@ public class Borrow {
         this.customer = customer;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 
@@ -77,7 +77,7 @@ public class Borrow {
     }
 
 
-    public Calendar getFrom() {
+  /*  public Calendar getFrom() {
         return from;
     }
 
@@ -91,7 +91,7 @@ public class Borrow {
 
     public void setTo(Calendar to) {
         this.to = to;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o){
@@ -100,16 +100,17 @@ public class Borrow {
 
         Borrow oo = (Borrow) o;
 
-        if(this.getId() != oo.getId())
+        if(this.getId() != oo.getId()){
             return false;
-        if(this.getCustomer() != oo.getCustomer())
+        }
+        if(!(this.getCd().equals(oo.getCd()))){
+            System.out.println("!cd");
             return false;
-        if(this.getCd().equals(oo.getCd()))
+        }
+        if(!(this.getCustomer().equals(oo.getCustomer()))){
+            System.out.println("!customer");
             return false;
-        if(this.getFrom() != oo.getFrom())
-            return false;
-        if(this.getFrom() != oo.getFrom())
-            return false;
+        }
 
         return true;
     }
