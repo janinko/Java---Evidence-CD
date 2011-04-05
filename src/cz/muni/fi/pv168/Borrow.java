@@ -68,7 +68,7 @@ public class Borrow {
         this.customer = customer;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 

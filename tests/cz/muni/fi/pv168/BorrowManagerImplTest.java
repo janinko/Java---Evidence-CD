@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168;
 
+import java.util.GregorianCalendar;
+import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,6 +26,7 @@ public class BorrowManagerImplTest {
         Borrow borrow = createSampleBorrow();
 
         // should be the same
+        borrow.setId(0);
         manager.createBorrow(borrow);
         Borrow managerBorrow = manager.getBorrowById(borrow.getId());
         assertEquals(borrow, managerBorrow);
@@ -129,7 +132,7 @@ public class BorrowManagerImplTest {
         // attributes should be the same
         assertEquals(borrow.getCd(), managerBorrow.getCd());
         assertEquals(borrow.getCustomer(), managerBorrow.getCustomer());
-        assertTrue(borrow.isActive() == managerBorrow.isActive());
+        assertTrue(borrow.getActive() == managerBorrow.getActive());
 
 
     }
@@ -151,7 +154,11 @@ public class BorrowManagerImplTest {
         borrow.setId(1);
         borrow.setCd(new CD(1, "The Test Album", 2011));
         borrow.setCustomer(new Customer(1, "Test User"));
-        borrow.setActive(true);
+        Calendar from = new GregorianCalendar(2011, 3, 5, 12, 30, 7) ;
+        Calendar to = new GregorianCalendar(2011, 4, 4, 16, 19, 3) ;
+        borrow.setFrom(from);
+        borrow.setTo(to);
+        borrow.setActive(false);
 
         return borrow;
     }
@@ -163,7 +170,11 @@ public class BorrowManagerImplTest {
         borrow.setId(2);
         borrow.setCd(new CD(2, "The Test Album 2", 2011));
         borrow.setCustomer(new Customer(2, "Test User 2"));
-        borrow.setActive(false);
+        Calendar from = new GregorianCalendar(2011, 4, 7, 12, 30, 7) ;
+        Calendar to = new GregorianCalendar(2011, 5, 6, 18, 0, 0) ;
+        borrow.setFrom(from);
+        borrow.setTo(to);
+        borrow.setActive(true);
 
         return borrow;
     }
