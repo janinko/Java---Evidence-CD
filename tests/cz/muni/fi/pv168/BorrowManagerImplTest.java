@@ -146,9 +146,10 @@ public class BorrowManagerImplTest {
         Borrow borrow = createSampleBorrow();
         manager.createBorrow(borrow);
         int borrowId = borrow.getId();
+
         // borrows should be the same
-        borrow.setCd(new CD(borrowId, "The Test Album 2", 2011));
-        borrow.setActive(false);
+        borrow.setCd(cdManager.createCD(new CD(0, "The Test Album 2", 2011)));
+      
         manager.updateBorrow(borrow);
         Borrow managerBorrow = manager.getBorrowById(borrowId);
         System.out.println(borrow);

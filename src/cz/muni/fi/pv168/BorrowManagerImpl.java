@@ -87,7 +87,7 @@ public class BorrowManagerImpl implements BorrowManager {
                     borrow.getTo().get(Calendar.SECOND),
                     0);
             st.setString(4, to.toString());*/
-            st.setInt(3, (borrow.getActive()?1:0));
+            st.setInt(3, (borrow.getActive() ? 1 : 0));
 
             int count = st.executeUpdate();
             assert count == 1;
@@ -135,7 +135,7 @@ public class BorrowManagerImpl implements BorrowManager {
             PreparedStatement st = conn.prepareStatement("UPDATE borrows SET cdid=?, customerid=?, active=? WHERE id=?");
             st.setInt(1, borrow.getCd().getId());
             st.setInt(2, borrow.getCustomer().getId());
-            st.setInt(3, (borrow.getActive()?1:0));
+            st.setInt(3, (borrow.getActive() ? 1 : 0));
             st.setInt(4, borrow.getId());
             if (st.executeUpdate() == 0) {
                 throw new IllegalArgumentException("borrow not found");
