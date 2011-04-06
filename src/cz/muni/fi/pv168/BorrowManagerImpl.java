@@ -57,12 +57,6 @@ public class BorrowManagerImpl implements BorrowManager {
         if (borrow.getCustomer().getId() == 0) {
             throw new IllegalArgumentException("customer id isn't set");
         }
-     /*   if (borrow.getFrom() == null) {                              // TODO
-            throw new NullPointerException("From date isn't set");
-        }
-        if (borrow.getTo() == null) {
-            throw new NullPointerException("To date isn't set");
-        }*/
 
         Connection conn = null;
         try {
@@ -71,24 +65,6 @@ public class BorrowManagerImpl implements BorrowManager {
             try {
                 st.setInt(1, borrow.getCd().getId());
                 st.setInt(2, borrow.getCustomer().getId());
-               /* Timestamp from = new Timestamp(               //    TODO
-                        borrow.getFrom().get(Calendar.YEAR),
-                        borrow.getFrom().get(Calendar.MONTH),
-                        borrow.getFrom().get(Calendar.DAY_OF_MONTH),
-                        borrow.getFrom().get(Calendar.HOUR_OF_DAY),
-                        borrow.getFrom().get(Calendar.MINUTE),
-                        borrow.getFrom().get(Calendar.SECOND),
-                        0);
-                st.setString(3, from.toString());
-                Timestamp to = new Timestamp(
-                        borrow.getTo().get(Calendar.YEAR),
-                        borrow.getTo().get(Calendar.MONTH),
-                        borrow.getTo().get(Calendar.DAY_OF_MONTH),
-                        borrow.getTo().get(Calendar.HOUR_OF_DAY),
-                        borrow.getTo().get(Calendar.MINUTE),
-                        borrow.getTo().get(Calendar.SECOND),
-                        0);
-                st.setString(4, to.toString());*/
                 st.setInt(3, (borrow.getActive() ? 1 : 0));
 
                 int count = st.executeUpdate();

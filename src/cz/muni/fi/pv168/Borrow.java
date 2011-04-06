@@ -12,8 +12,6 @@ public class Borrow {
     private CD cd;
     private Customer customer;
     private boolean active;
-   // private Calendar from;
-  //  private Calendar to;
 
 
     public Borrow() {
@@ -21,8 +19,6 @@ public class Borrow {
         this.cd = null;
         this.customer = null;
         this.active = false;
-      //  this.from = null;
-      //  this.to = null;
     }
 
     public Borrow(int id) {
@@ -30,8 +26,6 @@ public class Borrow {
         this.cd = null;
         this.customer = null;
         this.active = false;
-       // this.from = null;
-      //  this.to = null;
     }
 
     public Borrow(int id, CD cd, Customer customer, boolean active) {
@@ -39,8 +33,6 @@ public class Borrow {
         this.cd = cd;
         this.customer = customer;
         this.active = active;
-      //  this.from = from;
-      //  this.to = to;
     }
 
     public int getId() {
@@ -75,23 +67,6 @@ public class Borrow {
         this.active = active;
     }
 
-
-  /*  public Calendar getFrom() {
-        return from;
-    }
-
-    public void setFrom(Calendar from) {
-        this.from = from;
-    }
-
-    public Calendar getTo() {
-        return to;
-    }
-
-    public void setTo(Calendar to) {
-        this.to = to;
-    }*/
-
     @Override
     public boolean equals(Object o){
         if(! (o instanceof Borrow))
@@ -124,8 +99,7 @@ public class Borrow {
         return hash;
     }
 
-
-
+    
     @Override
     public String toString() {
         return id + " (" + cd + "), (" + customer + "), " + active + ")";

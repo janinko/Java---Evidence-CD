@@ -93,9 +93,5 @@ public class CD implements Comparable<CD>  {
         hash = 19 * hash + this.year;
         return hash;
     }
-
-
-
-
-    
+  
 }
