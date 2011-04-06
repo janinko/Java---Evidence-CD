@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -24,6 +26,8 @@ public class BorrowManagerImpl implements BorrowManager {
     CustomerManager customerManager;
 
     public BorrowManagerImpl() {
+        this.cdManager = new CDManagerImpl();
+        this.customerManager = new CustomerManagerImpl();
     }
 
 
@@ -60,6 +64,9 @@ public class BorrowManagerImpl implements BorrowManager {
 
         Connection conn = null;
         try {
+            if (ds == null) {
+                System.out.println("DS je null!!!");
+            }
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("INSERT INTO borrows (cdid, customerid, active) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             try {
@@ -139,7 +146,32 @@ public class BorrowManagerImpl implements BorrowManager {
     }
 
     public SortedSet<Borrow> getAllBorrows() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        Connection conn = null;
+
+        try {
+            conn = ds.getConnection();
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM CDS");
+            try {
+                ResultSet rs = st.executeQuery();
+                SortedSet<Borrow> allBorrows = new TreeSet<Borrow>();
+
+                while (rs.next()) {
+                    Borrow borrow = new Borrow();
+                    borrow.setId(rs.getInt("id"));
+                    borrow.setCustomer(customerManager.getCustomerById(rs.getInt("customerid")));
+                    borrow.setCd(cdManager.getCDById(rs.getInt("cdid")));
+                    borrow.setActive(rs.getInt("active") == 1 ? true : false);
+                }
+                return Collections.unmodifiableSortedSet(allBorrows);
+            } finally {
+                HelperDB.closeStatement(st);
+            }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Error when getting all borrows from DB", ex);
+            throw new RuntimeException("Error when getting all borrows from DB", ex);
+        } finally {
+            HelperDB.closeConn(conn);
+        }
     }
 
     public Borrow getBorrowById(int id) {

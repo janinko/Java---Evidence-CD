@@ -126,7 +126,7 @@ public class CDManagerImpl implements CDManager {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM cds");
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM CDS");
             try {
                 ResultSet rs = st.executeQuery();
                 SortedSet<CD> allCDs = new TreeSet<CD>();

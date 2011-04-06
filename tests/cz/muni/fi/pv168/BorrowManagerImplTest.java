@@ -4,8 +4,6 @@ import org.junit.After;
 import javax.sql.DataSource;
 import javax.naming.NamingException;
 import java.sql.SQLException;
-import java.util.GregorianCalendar;
-import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
