@@ -48,15 +48,19 @@ public class CustomerManagerImpl implements CustomerManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("INSERT INTO CUSTOMERS (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
-            st.setString(1, customer.getName());
+            try {
+                st.setString(1, customer.getName());
 
-            int count = st.executeUpdate();
-            assert count == 1;
+                int count = st.executeUpdate();
+                assert count == 1;
 
-            int id = HelperDB.getId(st.getGeneratedKeys());
-            customer.setId(id);
+                int id = HelperDB.getId(st.getGeneratedKeys());
+                customer.setId(id);
 
-            return customer;
+                return customer;
+            } finally {
+                HelperDB.closeStatement(st);
+            }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when inserting customer into DB", ex);
             throw new RuntimeException("Error when inserting into DB", ex);
@@ -75,11 +79,15 @@ public class CustomerManagerImpl implements CustomerManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("DELETE FROM CUSTOMERS WHERE id=?");
-            st.setInt(1, customer.getId());
-            if (st.executeUpdate() == 0) {
-                throw new IllegalArgumentException("customer not found");
+            try {
+                st.setInt(1, customer.getId());
+                if (st.executeUpdate() == 0) {
+                    throw new IllegalArgumentException("customer not found");
+                }
+                return customer;
+            } finally {
+                HelperDB.closeStatement(st);
             }
-            return customer;
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when deleting customer from DB", ex);
             throw new RuntimeException("Error when deleting customer from DB", ex);
@@ -98,12 +106,16 @@ public class CustomerManagerImpl implements CustomerManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("UPDATE CUSTOMERS SET name=? WHERE id=?");
-            st.setString(1, customer.getName());
-            st.setInt(2, customer.getId());
-            if (st.executeUpdate() == 0) {
-                throw new IllegalArgumentException("customer not found");
+            try {
+                st.setString(1, customer.getName());
+                st.setInt(2, customer.getId());
+                if (st.executeUpdate() == 0) {
+                    throw new IllegalArgumentException("customer not found");
+                }
+                return customer;
+            } finally {
+                HelperDB.closeStatement(st);
             }
-            return customer;
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when updating customer in DB", ex);
             throw new RuntimeException("Error when updating customer in DB", ex);
@@ -118,16 +130,20 @@ public class CustomerManagerImpl implements CustomerManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS");
-            ResultSet rs = st.executeQuery();
-            SortedSet<Customer> allCustomers = new TreeSet<Customer>();
+            try {
+                ResultSet rs = st.executeQuery();
+                SortedSet<Customer> allCustomers = new TreeSet<Customer>();
 
-            while (rs.next()) {
-                Customer customer = new Customer();
-                customer.setId(rs.getInt("id"));
-                customer.setName(rs.getString("name"));
-                allCustomers.add(customer);
+                while (rs.next()) {
+                    Customer customer = new Customer();
+                    customer.setId(rs.getInt("id"));
+                    customer.setName(rs.getString("name"));
+                    allCustomers.add(customer);
+                }
+                return Collections.unmodifiableSortedSet(allCustomers);
+            } finally {
+                HelperDB.closeStatement(st);
             }
-            return Collections.unmodifiableSortedSet(allCustomers);
 
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when getting all CUSTOMERS from DB", ex);
@@ -146,18 +162,22 @@ public class CustomerManagerImpl implements CustomerManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS WHERE id=?");
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            Customer customer = null;
-            if (rs.next()) { 
-                customer = new Customer();
-                customer.setId(rs.getInt("id"));
-                customer.setName(rs.getString("name"));
+            try {
+                st.setInt(1, id);
+                ResultSet rs = st.executeQuery();
+                Customer customer = null;
                 if (rs.next()) {
-                    throw new RuntimeException("customer");
+                    customer = new Customer();
+                    customer.setId(rs.getInt("id"));
+                    customer.setName(rs.getString("name"));
+                    if (rs.next()) {
+                        throw new RuntimeException("customer");
+                    }
                 }
+                return customer;
+            } finally {
+                HelperDB.closeStatement(st);
             }
-            return customer;
 
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when getting customer by id from DB", ex);

@@ -37,6 +37,7 @@ public class BorrowManagerImpl implements BorrowManager {
         this.ds = ds;
     }
 
+
     public Borrow createBorrow(Borrow borrow) {
         if (borrow == null) {
             throw new NullPointerException("borrow");
@@ -67,35 +68,39 @@ public class BorrowManagerImpl implements BorrowManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("INSERT INTO borrows (cdid, customerid, active) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            st.setInt(1, borrow.getCd().getId());
-            st.setInt(2, borrow.getCustomer().getId());
-           /* Timestamp from = new Timestamp(               //    TODO
-                    borrow.getFrom().get(Calendar.YEAR),
-                    borrow.getFrom().get(Calendar.MONTH),
-                    borrow.getFrom().get(Calendar.DAY_OF_MONTH),
-                    borrow.getFrom().get(Calendar.HOUR_OF_DAY),
-                    borrow.getFrom().get(Calendar.MINUTE),
-                    borrow.getFrom().get(Calendar.SECOND),
-                    0);
-            st.setString(3, from.toString());
-            Timestamp to = new Timestamp(
-                    borrow.getTo().get(Calendar.YEAR),
-                    borrow.getTo().get(Calendar.MONTH),
-                    borrow.getTo().get(Calendar.DAY_OF_MONTH),
-                    borrow.getTo().get(Calendar.HOUR_OF_DAY),
-                    borrow.getTo().get(Calendar.MINUTE),
-                    borrow.getTo().get(Calendar.SECOND),
-                    0);
-            st.setString(4, to.toString());*/
-            st.setInt(3, (borrow.getActive() ? 1 : 0));
+            try {
+                st.setInt(1, borrow.getCd().getId());
+                st.setInt(2, borrow.getCustomer().getId());
+               /* Timestamp from = new Timestamp(               //    TODO
+                        borrow.getFrom().get(Calendar.YEAR),
+                        borrow.getFrom().get(Calendar.MONTH),
+                        borrow.getFrom().get(Calendar.DAY_OF_MONTH),
+                        borrow.getFrom().get(Calendar.HOUR_OF_DAY),
+                        borrow.getFrom().get(Calendar.MINUTE),
+                        borrow.getFrom().get(Calendar.SECOND),
+                        0);
+                st.setString(3, from.toString());
+                Timestamp to = new Timestamp(
+                        borrow.getTo().get(Calendar.YEAR),
+                        borrow.getTo().get(Calendar.MONTH),
+                        borrow.getTo().get(Calendar.DAY_OF_MONTH),
+                        borrow.getTo().get(Calendar.HOUR_OF_DAY),
+                        borrow.getTo().get(Calendar.MINUTE),
+                        borrow.getTo().get(Calendar.SECOND),
+                        0);
+                st.setString(4, to.toString());*/
+                st.setInt(3, (borrow.getActive() ? 1 : 0));
 
-            int count = st.executeUpdate();
-            assert count == 1;
+                int count = st.executeUpdate();
+                assert count == 1;
 
-            int id = HelperDB.getId(st.getGeneratedKeys());
-            borrow.setId(id);
+                int id = HelperDB.getId(st.getGeneratedKeys());
+                borrow.setId(id);
 
-            return borrow;
+                return borrow;
+            } finally {
+                HelperDB.closeStatement(st);
+            }
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when inserting borrow into DB", ex);
             throw new RuntimeException("Error when inserting borrow into DB", ex);
@@ -112,11 +117,15 @@ public class BorrowManagerImpl implements BorrowManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("DELETE FROM borrows WHERE id=?");
-            st.setInt(1, borrow.getId());
-            if (st.executeUpdate() == 0) {
-                throw new IllegalArgumentException("borrow not found");
+            try {
+                st.setInt(1, borrow.getId());
+                if (st.executeUpdate() == 0) {
+                    throw new IllegalArgumentException("borrow not found");
+                }
+                return borrow;
+            } finally {
+                HelperDB.closeStatement(st);
             }
-            return borrow;
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when deleting borrow from DB", ex);
             throw new RuntimeException("Error when deleting borrow from DB", ex);
@@ -133,14 +142,18 @@ public class BorrowManagerImpl implements BorrowManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("UPDATE borrows SET cdid=?, customerid=?, active=? WHERE id=?");
-            st.setInt(1, borrow.getCd().getId());
-            st.setInt(2, borrow.getCustomer().getId());
-            st.setInt(3, (borrow.getActive() ? 1 : 0));
-            st.setInt(4, borrow.getId());
-            if (st.executeUpdate() == 0) {
-                throw new IllegalArgumentException("borrow not found");
+            try {
+                st.setInt(1, borrow.getCd().getId());
+                st.setInt(2, borrow.getCustomer().getId());
+                st.setInt(3, (borrow.getActive() ? 1 : 0));
+                st.setInt(4, borrow.getId());
+                if (st.executeUpdate() == 0) {
+                    throw new IllegalArgumentException("borrow not found");
+                }
+                return borrow;
+            } finally {
+                HelperDB.closeStatement(st);
             }
-            return borrow;
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when updating borrow in DB", ex);
             throw new RuntimeException("Error when updating borrow in DB", ex);
@@ -161,22 +174,25 @@ public class BorrowManagerImpl implements BorrowManager {
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT * FROM borrows WHERE id=?");
-            st.setInt(1, id);
-            ResultSet rs = st.executeQuery();
-            Borrow borrow = null;
-            if (rs.next()) {
-                borrow = new Borrow();
-                borrow.setId(rs.getInt("id"));
-                borrow.setCd(cdManager.getCDById(rs.getInt("cdid")));
-                borrow.setCustomer(customerManager.getCustomerById(rs.getInt("customerid")));
-                // TODO date
-                borrow.setActive((rs.getInt("active")==1?true:false));
+            try {
+                st.setInt(1, id);
+                ResultSet rs = st.executeQuery();
+                Borrow borrow = null;
                 if (rs.next()) {
-                    throw new RuntimeException("borrow");
+                    borrow = new Borrow();
+                    borrow.setId(rs.getInt("id"));
+                    borrow.setCd(cdManager.getCDById(rs.getInt("cdid")));
+                    borrow.setCustomer(customerManager.getCustomerById(rs.getInt("customerid")));
+                    // TODO date
+                    borrow.setActive((rs.getInt("active")==1?true:false));
+                    if (rs.next()) {
+                        throw new RuntimeException("borrow");
+                    }
                 }
+                return borrow;
+            } finally {
+                HelperDB.closeStatement(st);
             }
-            return borrow;
-
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, "Error when getting borrow by id from DB", ex);
             throw new RuntimeException("Error when getting borrow by id from DB", ex);

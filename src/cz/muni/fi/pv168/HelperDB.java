@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -48,6 +49,17 @@ public class HelperDB {
                 conn.close();
             } catch (SQLException ex) {
                 logger.log(Level.SEVERE, "Error when closing connection", ex);
+            }
+        }
+    }
+
+
+    public static void closeStatement(PreparedStatement ps) {
+        if (ps != null) {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                logger.log(Level.SEVERE, "Error when closing statement", ex);
             }
         }
     }
