@@ -38,8 +38,8 @@ public class Borrow {
     public Borrow(int id, CD cd, Customer customer, boolean active) {
         this.id = id;
         this.cd = cd;
-        this.customer = customer;
         this.active = active;
+        this.customer = customer;
     }
 
     public int getId() {
