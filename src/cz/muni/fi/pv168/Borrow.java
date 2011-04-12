@@ -1,6 +1,7 @@
 package cz.muni.fi.pv168;
 
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -23,6 +24,8 @@ public class Borrow {
         this.cd = null;
         this.customer = null;
         this.active = false;
+        this.from = new GregorianCalendar();
+        this.to = new GregorianCalendar();
     }
 
     public Borrow(int id) {
