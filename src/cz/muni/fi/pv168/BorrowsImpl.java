@@ -1,7 +1,6 @@
 package cz.muni.fi.pv168;
 
 import java.util.SortedSet;
-import java.util.TreeSet;
 import javax.sql.DataSource;
 
 /**
