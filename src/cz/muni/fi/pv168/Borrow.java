@@ -33,6 +33,8 @@ public class Borrow {
         this.cd = null;
         this.customer = null;
         this.active = false;
+        this.from = new GregorianCalendar();
+        this.to = new GregorianCalendar();
     }
 
     public Borrow(int id, CD cd, Customer customer, boolean active) {
