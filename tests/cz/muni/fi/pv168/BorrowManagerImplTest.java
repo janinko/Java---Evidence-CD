@@ -40,15 +40,18 @@ public class BorrowManagerImplTest {
 
     @Test
     public void testCreateBorrow() {
-        Borrow borrow = createSampleBorrow();
+        Borrow borrow, managerBorrow;
+        int borrowId;
+
 
         // should be the same
+        borrow = createSampleBorrow();
         manager.createBorrow(borrow);
-        int borrowId = borrow.getId();
+        borrowId = borrow.getId();
 
-        Borrow managerBorrow = manager.getBorrowById(borrowId);
-        
-        assertTrue(borrow.equals(managerBorrow));
+        managerBorrow = manager.getBorrowById(borrowId);
+
+        assertEquals(borrow, managerBorrow);
         
 
         // should be the same
