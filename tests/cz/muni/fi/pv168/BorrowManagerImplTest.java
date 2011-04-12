@@ -177,12 +177,10 @@ public class BorrowManagerImplTest {
         Borrow borrow = new Borrow();
         borrow.setId(0);
 
-        CD cd = new CD(0, "The Test Album", 2011);
-        cd = cdManager.createCD(cd);
+        CD cd = cdManager.createCD(new CD(0, "The Test Album", 2011));
         borrow.setCd(cd);
 
-        Customer customer = new Customer(0, "Test User");
-        customer = customerManager.createCustomer(customer);
+        Customer customer = customerManager.createCustomer(new Customer(0, "Test User"));
         borrow.setCustomer(customer);
         
         borrow.setActive(true);
@@ -193,13 +191,12 @@ public class BorrowManagerImplTest {
 
     private Borrow createSampleBorrow2() {
         Borrow borrow = new Borrow();
-
         borrow.setId(0);
-        CD cd = new CD(0, "The Test Album 2", 2011);
-        cd = cdManager.createCD(cd);
+
+        CD cd = cdManager.createCD(new CD(0, "The Test Album 2", 2011));
         borrow.setCd(cd);
-        Customer customer = new Customer(0, "Test User 2");
-        customer = customerManager.createCustomer(customer);
+
+        Customer customer = customerManager.createCustomer(new Customer(0, "Test User 2"));
         borrow.setCustomer(customer);
 
         borrow.setActive(true);
