@@ -1,5 +1,7 @@
 package cz.muni.fi.pv168;
 
+import java.util.Calendar;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,6 +14,8 @@ public class Borrow {
     private CD cd;
     private Customer customer;
     private boolean active;
+    private Calendar from;
+    private Calendar to;
 
 
     public Borrow() {
