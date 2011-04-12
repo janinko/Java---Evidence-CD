@@ -111,11 +111,8 @@ public class BorrowManagerImplTest {
 
     @Test
     public void testDeleteBorrow() {
-        Borrow borrow1 = createSampleBorrow();
-        Borrow borrow2 = createSampleBorrow2();
-
-        manager.createBorrow(borrow1);
-        manager.createBorrow(borrow2);
+        Borrow borrow1 = manager.createBorrow(createSampleBorrow());
+        Borrow borrow2 = manager.createBorrow(createSampleBorrow2());
 
         Borrow managerBorrow1 = manager.getBorrowById(borrow1.getId());
         Borrow managerBorrow2 = manager.getBorrowById(borrow2.getId());
