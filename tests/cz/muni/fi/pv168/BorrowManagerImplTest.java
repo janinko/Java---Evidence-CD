@@ -185,11 +185,6 @@ public class BorrowManagerImplTest {
         customer = customerManager.createCustomer(customer);
         borrow.setCustomer(customer);
         
-       // Calendar from = new GregorianCalendar(2011, 3, 5, 12, 30, 7) ;    TODO
-       // Calendar to = new GregorianCalendar(2011, 4, 4, 16, 19, 3) ;
-       // borrow.setFrom(from);
-       // borrow.setTo(to);
-        
         borrow.setActive(true);
 
         return borrow;
@@ -206,10 +201,7 @@ public class BorrowManagerImplTest {
         Customer customer = new Customer(0, "Test User 2");
         customer = customerManager.createCustomer(customer);
         borrow.setCustomer(customer);
-        //Calendar from = new GregorianCalendar(2011, 4, 7, 12, 30, 7) ; TODO
-        //Calendar to = new GregorianCalendar(2011, 5, 6, 18, 0, 0) ;
-        //borrow.setFrom(from);
-        //borrow.setTo(to);
+
         borrow.setActive(true);
 
         return borrow;
