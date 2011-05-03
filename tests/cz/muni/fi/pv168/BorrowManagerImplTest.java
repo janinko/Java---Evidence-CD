@@ -141,8 +141,7 @@ public class BorrowManagerImplTest {
 
     @Test
     public void testUpdateBorrow() {
-        Borrow borrow = createSampleBorrow();
-        manager.createBorrow(borrow);
+        Borrow borrow = manager.createBorrow(createSampleBorrow());
         int borrowId = borrow.getId();
 
         // borrows should be the same
