@@ -102,7 +102,7 @@ public class Borrow {
     
     @Override
     public String toString() {
-        return id + " (" + cd + "), (" + customer + "), " + active + ")";
+        return customer.getName() + ": " + cd.getTitle() + " - " + (active?"pujčeno":"vráceno");
     }
     
 }
