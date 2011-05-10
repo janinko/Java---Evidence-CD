@@ -150,7 +150,7 @@ public class BorrowManagerImpl implements BorrowManager {
 
         try {
             conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM CDS");
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM BORROWS");
             try {
                 ResultSet rs = st.executeQuery();
                 SortedSet<Borrow> allBorrows = new TreeSet<Borrow>();
