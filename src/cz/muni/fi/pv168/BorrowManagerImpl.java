@@ -161,6 +161,7 @@ public class BorrowManagerImpl implements BorrowManager {
                     borrow.setCustomer(customerManager.getCustomerById(rs.getInt("customerid")));
                     borrow.setCd(cdManager.getCDById(rs.getInt("cdid")));
                     borrow.setActive(rs.getInt("active") == 1 ? true : false);
+                    allBorrows.add(borrow);
                 }
                 return Collections.unmodifiableSortedSet(allBorrows);
             } finally {
