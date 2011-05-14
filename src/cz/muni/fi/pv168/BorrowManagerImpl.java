@@ -149,7 +149,7 @@ public class BorrowManagerImpl implements BorrowManager {
 
         try {
             conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM BORROWS OREDER BY id");
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM BORROWS");
             try {
                 ResultSet rs = st.executeQuery();
                 List<Borrow> allBorrows = new ArrayList<Borrow>();

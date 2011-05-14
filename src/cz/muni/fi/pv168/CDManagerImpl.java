@@ -125,7 +125,7 @@ public class CDManagerImpl implements CDManager {
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM CDS ORDER BY id");
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM CDS");
             try {
                 ResultSet rs = st.executeQuery();
                 List<CD> allCDs = new ArrayList<CD>();
