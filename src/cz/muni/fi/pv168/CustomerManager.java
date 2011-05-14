@@ -16,7 +16,7 @@ public interface CustomerManager {
 
     Customer updateCustomer(Customer customer);
 
-    SortedSet<Customer> getAllCustomers();
+    List<Customer> getAllCustomers();
 
     Customer getCustomerById(int id);
 

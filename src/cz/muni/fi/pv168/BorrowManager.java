@@ -16,7 +16,7 @@ public interface BorrowManager {
 
     Borrow updateBorrow(Borrow borrow);
 
-    SortedSet<Borrow> getAllBorrows();
+    List<Borrow> getAllBorrows();
 
     Borrow getBorrowById(int id);
 

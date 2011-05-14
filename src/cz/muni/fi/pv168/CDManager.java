@@ -16,7 +16,7 @@ public interface CDManager {
 
     CD updateCD(CD cd);
 
-    SortedSet<CD> getAllCD();
+    List<CD> getAllCD();
 
     CD getCDById(int id);
 
