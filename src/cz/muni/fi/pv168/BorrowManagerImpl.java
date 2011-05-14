@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -145,15 +144,15 @@ public class BorrowManagerImpl implements BorrowManager {
         }
     }
 
-    public SortedSet<Borrow> getAllBorrows() {
+    public List<Borrow> getAllBorrows() {
         Connection conn = null;
 
         try {
             conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM BORROWS");
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM BORROWS OREDER BY id");
             try {
                 ResultSet rs = st.executeQuery();
-                SortedSet<Borrow> allBorrows = new TreeSet<Borrow>();
+                List<Borrow> allBorrows = new ArrayList<Borrow>();
 
                 while (rs.next()) {
                     Borrow borrow = new Borrow();
@@ -163,7 +162,7 @@ public class BorrowManagerImpl implements BorrowManager {
                     borrow.setActive(rs.getInt("active") == 1 ? true : false);
                     allBorrows.add(borrow);
                 }
-                return Collections.unmodifiableSortedSet(allBorrows);
+                return allBorrows;
             } finally {
                 HelperDB.closeStatement(st);
             }

@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -125,14 +127,14 @@ public class CustomerManagerImpl implements CustomerManager {
     }
 
 
-    public SortedSet<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers() {
         Connection conn = null;
         try {
             conn = ds.getConnection();
             PreparedStatement st = conn.prepareStatement("SELECT * FROM CUSTOMERS");
             try {
                 ResultSet rs = st.executeQuery();
-                SortedSet<Customer> allCustomers = new TreeSet<Customer>();
+                List<Customer> allCustomers = new ArrayList<Customer>();
 
                 while (rs.next()) {
                     Customer customer = new Customer();
@@ -140,7 +142,7 @@ public class CustomerManagerImpl implements CustomerManager {
                     customer.setName(rs.getString("name"));
                     allCustomers.add(customer);
                 }
-                return Collections.unmodifiableSortedSet(allCustomers);
+                return allCustomers;
             } finally {
                 HelperDB.closeStatement(st);
             }

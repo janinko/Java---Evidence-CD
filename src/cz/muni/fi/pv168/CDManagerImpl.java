@@ -5,9 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Collections;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
@@ -121,15 +120,15 @@ public class CDManagerImpl implements CDManager {
         }
     }
 
-    public SortedSet<CD> getAllCD() {
+    public List<CD> getAllCD() {
 
         Connection conn = null;
         try {
             conn = ds.getConnection();
-            PreparedStatement st = conn.prepareStatement("SELECT * FROM CDS");
+            PreparedStatement st = conn.prepareStatement("SELECT * FROM CDS ORDER BY id");
             try {
                 ResultSet rs = st.executeQuery();
-                SortedSet<CD> allCDs = new TreeSet<CD>();
+                List<CD> allCDs = new ArrayList<CD>();
 
                 while (rs.next()) {
                     CD cd = new CD();
@@ -138,7 +137,7 @@ public class CDManagerImpl implements CDManager {
                     cd.setYear(rs.getInt("yeardb"));
                     allCDs.add(cd);
                 }
-                return Collections.unmodifiableSortedSet(allCDs);
+                return allCDs;
             } finally {
                 HelperDB.closeStatement(st);
             }
