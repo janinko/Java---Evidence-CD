@@ -6,7 +6,7 @@ package cz.muni.fi.pv168;
  * User: fivekeyem, janinko
  * Date: 3/14/11
  */
-public class Borrow {
+public class Borrow implements Comparable<Borrow> {
 
     private int id;
     private CD cd;
@@ -103,6 +103,10 @@ public class Borrow {
     @Override
     public String toString() {
         return customer.getName() + ": " + cd.getTitle() + " - " + (active?"pujčeno":"vráceno");
+    }
+
+    public int compareTo(Borrow o) {
+        return id - o.id;
     }
     
 }
