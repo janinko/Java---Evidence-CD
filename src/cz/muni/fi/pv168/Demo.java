@@ -1,6 +1,15 @@
 package cz.muni.fi.pv168;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
@@ -17,8 +26,9 @@ import org.apache.derby.jdbc.ClientConnectionPoolDataSource;
 public class Demo {
 
 
-    public static void main(String[] args) throws NamingException, SQLException {
-        DataSource ds;
+    public static void main(String[] args) throws NamingException, SQLException, FileNotFoundException, IOException {
+        fillData();
+        /*DataSource ds;
         CDManagerImpl manager;
 
         Customer kuba = new Customer();
@@ -57,7 +67,7 @@ public class Demo {
             c = cd;
         }
         System.out.println("----------");
-
+        */
 
         /*
         manager = new CustomerManagerImpl();
@@ -116,5 +126,80 @@ public class Demo {
         ds.setUser("evname");
         ds.setPassword("evpass");
         return ds;
+    }
+
+    public static void fillData() throws SQLException, FileNotFoundException, IOException{
+        DataSource ds = prepareDataSource();
+        CDManagerImpl cdManager = new CDManagerImpl();
+        CustomerManagerImpl customerManager = new CustomerManagerImpl();
+        BorrowManagerImpl borrowManager = new BorrowManagerImpl();
+
+        cdManager.setDs(ds);
+        customerManager.setDs(ds);
+        borrowManager.setDs(ds);
+
+        Connection conn = null;
+        PreparedStatement st;
+        conn = ds.getConnection();
+        st = conn.prepareStatement("DROP TABLE CUSTOMERS");
+        st.executeUpdate();
+        st = conn.prepareStatement("DROP TABLE CDS");
+        st.executeUpdate();
+        st = conn.prepareStatement("DROP TABLE BORROWS");
+        st.executeUpdate();
+
+        st = conn.prepareStatement(
+                           "CREATE TABLE CUSTOMERS ("
+                         + "    id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
+                         + "    name VARCHAR(50))");
+        st.executeUpdate();
+        st = conn.prepareStatement(
+                           "CREATE TABLE CDS ("
+                         + "    id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
+                         + "    title VARCHAR(250),"
+                         + "    yeardb INTEGER)");
+        st.executeUpdate();
+        st = conn.prepareStatement(
+                           "CREATE TABLE BORROWS ("
+                         + "    id INTEGER NOT NULL PRIMARY KEY GENERATED ALWAYS AS IDENTITY,"
+                         + "    cdid INTEGER,"
+                         + "    customerid INTEGER,"
+                         + "    active INTEGER)");
+        st.executeUpdate();
+
+        BufferedReader cust =  new BufferedReader(new FileReader("customers.txt"));
+        BufferedReader cds =  new BufferedReader(new FileReader("cds.txt"));
+
+
+        Random generator = new Random();
+        int pokr = 0x1 | 0x2;
+        int ln=0;
+
+        while(pokr>0){
+            CD cd = null;
+            Customer customer = null;
+            ln++;
+            String line;
+            if((pokr & 0x1) != 0){
+                line = cust.readLine();
+                if(line == null){
+                    pokr-= 0x01;
+                }else{
+                    customer = customerManager.createCustomer(new Customer(0,line));
+                }
+            }
+            if((pokr & 0x2) != 0){
+                line = cds.readLine();
+                if(line == null){
+                    pokr-= 0x02;
+                }else{
+                    cd = cdManager.createCD(new CD(0,line, 1850 + generator.nextInt( 162 )));
+                }
+            }
+            if(cd != null && customer != null){
+                borrowManager.createBorrow(new Borrow(0,cd,customer,ln%2 == 0));
+            }
+        }
+
     }
 }
